@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .p-page {
+    @apply px-[8vw] mobile:px-[3vw];
+  }
+
+  .text-gradient-to-r {
+    @apply text-transparent bg-clip-text bg-gradient-to-r;
+  }
+}
+
+@layer components {
+  .btn-1 {
+    @apply bg-primary text-back hover:bg-secondary duration-300 w-max;
+  }
+
+  .btn-2 {
+    --border-size: 2px;
+    @apply relative flex items-center w-max box-border text-front bg-[#151515] bg-clip-padding rounded-xl hover:bg-back hover:after:opacity-100 duration-500;
+    border: solid var(--border-size) transparent;
+  }
+
+  .btn-2::before {
+    content: "";
+    @apply absolute top-0 left-0 bottom-0 right-0 -z-[1] -m-[var(--border-size)] bg-gradient-to-tr rounded-inherit from-primary to-secondary duration-inherit;
+  }
+
+  .btn-2::after{
+    content: "";
+    @apply absolute top-0 left-0 bottom-0 right-0 -z-[1] bg-gradient-to-tr from-primary to-secondary duration-inherit opacity-0 blur-md;
+  }
+}
