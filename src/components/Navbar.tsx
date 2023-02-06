@@ -22,6 +22,7 @@ export default function Navbar() {
           return (
             <Link
               to={link.to}
+              key={link.to}
               className="opacity-70 duration-300 hover:opacity-100"
             >
               {link.name}
@@ -38,7 +39,7 @@ export default function Navbar() {
           />
         </button>
         <button className="bg-primary py-1 px-8 rounded-xl font-medium text-lg text-back duration-500 hover:bg-secondary">
-          Login
+          Join now
         </button>
       </div>
     </nav>

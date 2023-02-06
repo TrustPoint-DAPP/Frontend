@@ -1,4 +1,3 @@
-import React from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -6,8 +5,7 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import LandingPage from "./pages/LandingPage";
+import LandingPage from "./pages/LandingPage/LandingPage";
 
 export default function App() {
   const router = createBrowserRouter(
