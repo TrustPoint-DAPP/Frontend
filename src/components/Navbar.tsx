@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import RegisterModal from "./RegisterModal";
 import gsap from "gsap";
@@ -14,11 +14,10 @@ export default function Navbar() {
   ];
 
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
-  const navbarMid = useRef() as React.MutableRefObject<HTMLInputElement>;
   const navbarLinkHoverBg =
     useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  function navbarLinkHover(link: EventTarget ) {
+  function navbarLinkHover(link: EventTarget) {
     //move the floaty background
     const state = Flip.getState(navbarLinkHoverBg.current);
     (link as HTMLElement).appendChild(navbarLinkHoverBg.current);
@@ -42,7 +41,7 @@ export default function Navbar() {
             />
           </Link>
         </div>
-        <div className="navbar-mid flex gap-x-16" ref={navbarMid}>
+        <div className="navbar-mid flex gap-x-16">
           {navLinks.map((link) => {
             return (
               <Link

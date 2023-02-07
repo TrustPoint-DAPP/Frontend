@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -15,7 +14,7 @@ function DealCard(props: DealCardProps) {
       <img
         src={props.imageUrl}
         alt={`${props.counterParty} deal card`}
-        className="w-1/5 aspect-square object-cover rounded-md"
+        className="w-1/5 aspect-square object-cover rounded-md bg-gradient-to-b from-emerald-500 to-green-900"
       />
       <div className="flex flex-col px-5 gap-y-3">
         <p className="text-3xl font-mono tracking-tighter">

@@ -16,7 +16,7 @@ function Card1(props: Card1Props) {
   useEffect(() => {
     cardRef.current?.addEventListener("mousemove", (event): void => {
       const { currentTarget: target } = event;
-      const rect = target?.getBoundingClientRect();
+      const rect = (target as HTMLElement).getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
       cardRef.current?.style.setProperty("--mouse-x", `${x}px`);
@@ -39,7 +39,7 @@ function Card1(props: Card1Props) {
         {props.interaction && (
           <button
             className="btn-3 px-4 py-2"
-            onClick={() =>  {
+            onClick={() => {
               window.open(props.link, "_new_window_");
             }}
           >
