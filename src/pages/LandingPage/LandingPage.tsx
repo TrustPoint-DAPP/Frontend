@@ -1,7 +1,8 @@
 import Navbar from "../../components/Navbar";
-import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Card1 from "../../components/Card1";
+import { useState } from "react";
+import RegisterModal from "../../components/RegisterModal";
 
 export default function LandingPage() {
   const promotionCards = [
@@ -14,12 +15,14 @@ export default function LandingPage() {
     },
     {
       image: "/images/brand-promotional-illustration-2.png",
-      title: "Unparalleled Security",
+      title: "Unbeatable Security",
       description:
         "In no way can your deals be interacted with by someone other than you and you only. Security is our utmost concern and it should be yours as well. We've considered all possibilities and made a developed marketplace for all parties.",
       link: "https://blockbuild.africa/the-concept-of-blockchain-in-zero-trust/",
     },
   ];
+
+  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
 
   return (
     <>
@@ -44,14 +47,19 @@ export default function LandingPage() {
             blanditiis voluptatum quod quos accusamus obcaecati praesentium!
           </p>
           <div className="flex items-center gap-x-10">
-            <Link to={"/login"} className="btn-2 px-4 py-2">
+            <button
+              className="btn-2 px-4 py-2"
+              onClick={() => {
+                setShowRegistrationModal(true);
+              }}
+            >
               Get Started
-            </Link>
+            </button>
           </div>
         </div>
         <div className="hero-right basis-1/2"></div>
       </section>
-      <section className="p-page">
+      <section className="p-page relative">
         <h1 className="text-5xl font-semibold">
           Your Deals on{" "}
           <span className="text-gradient-to-r from-primary to-secondary">
@@ -80,6 +88,10 @@ export default function LandingPage() {
           })}
         </div>
       </section>
+      <RegisterModal
+        show={showRegistrationModal}
+        setShow={setShowRegistrationModal}
+      />
       <Footer />
     </>
   );

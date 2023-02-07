@@ -48,4 +48,8 @@
   .btn-3 {
     @apply bg-primary text-primary bg-opacity-10 w-max rounded-lg duration-500 hover:bg-opacity-100 hover:scale-105 hover:text-back;
   }
+
+  .btn-4 {
+    @apply bg-tertiary text-back;
+  }
 }

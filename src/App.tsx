@@ -5,6 +5,7 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import LandingPage from "./pages/LandingPage/LandingPage";
 
 export default function App() {
@@ -12,7 +13,7 @@ export default function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<LandingPage />} />
-        {/* <Route  element={<LandingPage />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
       </Route>
     )
   );

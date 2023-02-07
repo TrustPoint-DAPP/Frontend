@@ -26,7 +26,7 @@ function Card1(props: Card1Props) {
 
   return (
     <div
-      className={`relative border-2 border-front border-opacity-10 rounded-3xl overflow-hidden cursor-pointer
+      className={`relative border-2 border-front border-opacity-10 rounded-3xl overflow-hidden cursor-default
     bg-contain bg-no-repeat bg-right-top before:rounded-inherit before:content-blank before:absolute before:top-0 
     before:left-0 before:w-full before:h-full before:bg-radial-glow before:opacity-0 before:duration-500 
     before:pointer-events-none hover:before:opacity-100 ${props.className}`}
