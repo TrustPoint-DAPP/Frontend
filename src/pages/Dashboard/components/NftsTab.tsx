@@ -13,7 +13,7 @@ interface NftsTabProps {
 
 function NftsTab(props: NftsTabProps) {
   return (
-    <div className="flex flex-wrap justify-evenly w-full gap-y-8 gap-x-2 overflow-y-scroll h-full scrollbar-primary">
+    <div className="flex flex-wrap justify-evenly w-full gap-y-8 overflow-y-scroll h-full scrollbar-primary">
       <div className="w-full">
         <div className="w-full h-14"></div>
       </div>

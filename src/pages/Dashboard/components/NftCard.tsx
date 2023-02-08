@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 interface NftCardProps {
   id: number;
   name: string;
@@ -23,6 +25,31 @@ interface NftCardProps {
 //   );
 // }
 
-function NftCardProps(props:NftCardProps)
+function NftCard(props: NftCardProps) {
+  return (
+    <div className="w-60 p-4 rounded-2xl bg-foreground">
+      <div className="border-2 borders-front rounded-inherit aspect-[4/5]">
+        <img
+          src={props.imageUrl}
+          alt={`${props.id} ${props.name} NFT Card`}
+          className="h-full w-full object-center object-cover rounded-t-xl"
+        />
+        <div className="py-2 px-3 border-t-2 border-front">
+          <p className="text-2xl font-semibold truncate">
+            {props.name.toUpperCase()}
+          </p>
+          <p className="text-front text-opacity-60 text-sm">
+            Supply :{" "}
+            <span className="text-base text-primary text-opacity-80">
+              {" "}
+              {props.quantity}{" "}
+            </span>{" "}
+          </p>
+        </div>
+      </div>
+      <div className="absolute bottom-0 right-0 w-20 h-20 blur-3xl bg-gradient-to-tr from-primary to-secondary"></div>
+    </div>
+  );
+}
 
 export default NftCard;
