@@ -15,12 +15,6 @@
     content: "";
   }
 
-  .truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
   .bg-radial-glow {
     background: radial-gradient(
       800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),

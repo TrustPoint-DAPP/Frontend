@@ -8,28 +8,7 @@ interface RegisterModalProps {
 
 function RegisterModal(props: RegisterModalProps) {
   async function connectMetamaskasync() {
-    if (window.ethereum ) {
-      try {
-        const address = await window.ethereum.enable();
-        const obj = {
-          connectedStatus: true,
-          status: "",
-          address: address,
-        };
-        return obj;
-      } catch (error) {
-        return {
-          connectedStatus: false,
-          status: "🦊 Connect to Metamask using the button on the top right.",
-        };
-      }
-    } else {
-      return {
-        connectedStatus: false,
-        status:
-          "🦊 You must install Metamask into your browser: https://metamask.io/download.html",
-      };
-    }
+    alert("YASH AB ISKO LIKHEGA")
   }
 
   const { show, setShow } = props;
