@@ -22,7 +22,7 @@ function DealCard(props: DealCardProps) {
         </p>
         <p>Amount : {props.amount.toString()}</p>
         <p>Royalty : {props.royalty.toString()}</p>
-        <Link to={`/deal`} className="btn-3 px-3 py-2 mt-3"> View Details </Link>
+        <Link to={`/deal/${0}`} className="btn-3 px-3 py-2 mt-3"> View Details </Link>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import {
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DealPage from "./pages/DealPage/DealPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import NftPage from "./pages/NftPage/NftPage";
 
 export default function App() {
   const router = createBrowserRouter(
@@ -16,6 +17,7 @@ export default function App() {
         <Route index element={<LandingPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/deal/:id" element={<DealPage />} />
+        <Route path="/nft/:id" element={<NftPage />} />
       </Route>
     )
   );
