@@ -129,7 +129,7 @@ export default function UserDashboard() {
       imageUrl:
         "https://external-preview.redd.it/aw5qykqjkyizl9zMO70cEvhT8pA2wE0Vuu4l0FiEhHg.jpg?auto=webp&s=e86b6d30a5eb327bb65bb3ab336fe742484ccde1",
     },
-  ].slice(0,11);
+  ];
 
   return (
     <>
