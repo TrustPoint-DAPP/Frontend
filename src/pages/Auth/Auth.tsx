@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import FloatingBubblesBackground from "../../components/FloatingBubblesBackground";
 
 const organizationInputs: InputsProps = {
   items: [
@@ -64,70 +65,76 @@ function Auth() {
   const navigate = useNavigate();
 
   return (
-    <div
-      className={`flex fixed top-0 left-0 w-full h-full z-[101] justify-center items-center bg-back bg-opacity-10 backdrop-blur-md duration-500`}
-    >
-      <div className="flex flex-col items-center backdrop-blur-3xl shadow-2xl bg-foreground rounded-4xl p-4 gap-y-6">
-        <div className="flex justify-end w-full">
-          <button
-            className="px-6 py-4 bg-primary bg-opacity-30 rounded-2xl duration-300 hover:bg-opacity-80"
-            onClick={() => {
-              navigate(-1);
+    <section className="h-screen">
+      <div className="-z-[1] absolute top-0 left-0 w-full h-full blur-3xl">
+        {" "}
+        <FloatingBubblesBackground />{" "}
+      </div>
+      <div
+        className={`flex fixed top-0 left-0 w-full h-full z-[101] justify-center items-center bg-back bg-opacity-10 duration-500`}
+      >
+        <div className="flex flex-col items-center backdrop-blur-3xl shadow-2xl bg-foreground rounded-4xl p-4 gap-y-6">
+          <div className="flex justify-end w-full">
+            <button
+              className="px-6 py-4 bg-primary bg-opacity-30 rounded-2xl duration-300 hover:bg-opacity-80"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              <img
+                src="/icons/close.svg"
+                alt="close-icon"
+                className="w-8 aspect-square brightness-0 invert"
+              />
+            </button>
+          </div>
+          <div className="flex justify-center items-center w-full">
+            <p className="pr-2 whitespace-nowrap text-2xl">I'm a</p>
+            {[
+              { title: "organization", inputs: organizationInputs },
+              {
+                title: "influencer",
+                inputs: CelebrityInputs,
+              },
+            ].map((btn) => (
+              <button
+                onClick={() => {
+                  setTimeout(() => {
+                    setInputsArray(btn.inputs);
+                  }, inputsTransitionDuration);
+                }}
+                className={`px-4 ${
+                  inputsArray == btn.inputs ? "underline" : "italic"
+                }`}
+              >
+                {btn.title}
+              </button>
+            ))}
+          </div>
+          <form
+            className="flex flex-col gap-y-12 px-14"
+            onSubmit={(event) => {
+              event.preventDefault();
+              connectMetamaskasync();
             }}
           >
-            <img
-              src="/icons/close.svg"
-              alt="close-icon"
-              className="w-8 aspect-square brightness-0 invert"
-            />
-          </button>
-        </div>
-        <div className="flex justify-center items-center w-full">
-          <p className="pr-2 whitespace-nowrap text-2xl">I'm a</p>
-          {[
-            { title: "organization", inputs: organizationInputs },
-            {
-              title: "influencer",
-              inputs: CelebrityInputs,
-            },
-          ].map((btn) => (
-            <button
-              onClick={() => {
-                setTimeout(() => {
-                  setInputsArray(btn.inputs);
-                }, inputsTransitionDuration);
-              }}
-              className={`px-4 ${
-                inputsArray == btn.inputs ? "underline" : "italic"
-              }`}
-            >
-              {btn.title}
+            <div className="border-b border-front py-4 w-full text-2xl pr-[10vw]">
+              Connect via MetaMask
+            </div>
+            <Inputs items={inputsArray.items} />
+            <button className="btn-4 px-8 py-2 w-max self-center font-mono text-xl rounded-full flex items-center gap-x-3 mb-10 duration-300 hover:bg-primary hover:bg-opacity-40 hover:text-front">
+              {" "}
+              <img
+                src="/icons/metamask.svg"
+                alt="metamask-icon"
+                className="aspect-square w-[3ch]"
+              />{" "}
+              CONNECT{" "}
             </button>
-          ))}
+          </form>
         </div>
-        <form
-          className="flex flex-col gap-y-12 px-14"
-          onSubmit={(event) => {
-            event.preventDefault();
-            connectMetamaskasync();
-          }}
-        >
-          <div className="border-b border-front py-4 w-full text-2xl pr-[10vw]">
-            Connect via MetaMask
-          </div>
-          <Inputs items={inputsArray.items} />
-          <button className="btn-4 px-8 py-2 w-max self-center font-mono text-xl rounded-full flex items-center gap-x-3 mb-10 duration-300 hover:bg-primary hover:bg-opacity-40 hover:text-front">
-            {" "}
-            <img
-              src="/icons/metamask.svg"
-              alt="metamask-icon"
-              className="aspect-square w-[3ch]"
-            />{" "}
-            CONNECT{" "}
-          </button>
-        </form>
       </div>
-    </div>
+    </section>
   );
 }
 

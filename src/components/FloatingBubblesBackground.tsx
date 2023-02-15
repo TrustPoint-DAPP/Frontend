@@ -1,20 +1,20 @@
 import React, { useEffect, useRef } from "react";
 
-function randomRange(a: number, b: number) {
+function randomFromRange(a: number, b: number) {
   return a + Math.floor(Math.random() * (b - a));
 }
 
 function randomFromArray(arr: any[]) {
-  return arr[randomRange(0, arr.length)];
+  return arr[randomFromRange(0, arr.length)];
 }
 
 function getRandomThematicColor() {
-  return randomFromArray(["#66ff22"]);
+  return randomFromArray(["#66ff22", "#05d494", "#27d5e4", "#cce9e7"]);
 }
 
 const bubbleCount = 8;
-const velocityRange = [2, 5];
-const sizeRange = [20, 100];
+const velocityRange = [1, 3];
+const sizeRange = [100, 300];
 
 export default function FloatingBubblesBackground() {
   const canvas = useRef() as React.MutableRefObject<HTMLCanvasElement>;
@@ -23,8 +23,6 @@ export default function FloatingBubblesBackground() {
     let ctx = canvas.current.getContext("2d") as CanvasRenderingContext2D;
     canvas.current.width = canvas.current.offsetWidth;
     canvas.current.height = canvas.current.offsetHeight;
-
-    let raf;
 
     let bubbles: Bubble[] = [];
 
@@ -51,13 +49,19 @@ export default function FloatingBubblesBackground() {
       ) {
         this.x = x;
         this.y = y;
-        this.vx = 0;
-        this.vy = 0;
-        this.size = 100;
+        this.vx = vx;
+        this.vy = vy;
+        this.size = size;
         this.color = color;
       }
 
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+      }
+
       draw() {
+        this.update();
         ctx.beginPath();
         ctx.arc(
           this.x - this.size / 2,
@@ -66,19 +70,19 @@ export default function FloatingBubblesBackground() {
           0,
           2 * Math.PI
         );
-        ctx.fillStyle = `#ff0000`;
-        ctx.stroke();
+        ctx.fillStyle = this.color;
+        ctx.fill();
       }
     }
 
     function init() {
       for (let i = 0; i < bubbleCount; i++) {
         const newBubble = new Bubble(
-          randomRange(0, canvasWidth),
-          randomRange(0, canvasHeight),
-          randomRange(velocityRange[0], velocityRange[1]),
-          randomRange(velocityRange[0], velocityRange[1]),
-          randomRange(sizeRange[0], sizeRange[1]),
+          randomFromRange(0, canvasWidth),
+          randomFromRange(0, canvasHeight),
+          randomFromRange(velocityRange[0], velocityRange[1]),
+          randomFromRange(velocityRange[0], velocityRange[1]),
+          randomFromRange(sizeRange[0], sizeRange[1]),
           getRandomThematicColor()
         );
 
@@ -92,7 +96,7 @@ export default function FloatingBubblesBackground() {
       for (let b of bubbles) {
         b.draw();
         if (b.x <= 0 && b.vx <= 0) {
-          b.vx = Math.abs(b.vx);
+          b.vx = randomFromRange(velocityRange[0],velocityRange[1]);
         }
         if (b.x >= canvasWidth && b.vx >= 0) {
           b.vx = -1 * Math.abs(b.vx);
@@ -105,7 +109,7 @@ export default function FloatingBubblesBackground() {
         }
       }
 
-      raf = window.requestAnimationFrame(draw);
+      window.requestAnimationFrame(draw);
     }
 
     init();
