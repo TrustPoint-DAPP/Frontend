@@ -1,15 +1,66 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useState } from "react";
 
 interface RegisterModalProps {
   show: Boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const organizationInputs: InputsProps = {
+  items: [
+    {
+      name: "name",
+      type: "text",
+      placeholder: "Enter your organization's name",
+      required: true,
+    },
+    {
+      name: "email",
+      type: "email",
+      placeholder: "Enter your business email",
+      required: true,
+    },
+    {
+      name: "description",
+      type: "text",
+      placeholder: "Enter a description about your organization",
+      required: true,
+      minLength: 100,
+      maxLength: 250,
+    },
+  ],
+};
+
+const CelebrityInputs: InputsProps = {
+  items: [
+    {
+      name: "name",
+      type: "text",
+      placeholder: "Enter your full name",
+      required: true,
+    },
+    {
+      name: "email",
+      type: "email",
+      placeholder: "Enter your email",
+      required: true,
+    },
+    {
+      name: "bio",
+      type: "text",
+      placeholder: "I am a...",
+      required: true,
+      minLength: 100,
+      maxLength: 250,
+    },
+  ],
+};
+
 function RegisterModal(props: RegisterModalProps) {
   async function connectMetamaskasync() {
-    alert("YASH AB ISKO LIKHEGA")
+    alert("YASH AB ISKO LIKHEGA");
   }
+
+  const [inputsArray, setInputsArray] = useState([]);
 
   const { show, setShow } = props;
   return (
@@ -43,24 +94,7 @@ function RegisterModal(props: RegisterModalProps) {
           <div className="border-b border-front py-4 w-full text-2xl pr-[10vw]">
             Connect via MetaMask
           </div>
-          <input
-            type="text"
-            name="organizationName"
-            placeholder="Enter your organization's name"
-            minLength={2}
-            maxLength={100}
-            className="bg-transparent rounded-full text-xl py-2 px-4"
-          />
-
-          <input
-            type="text"
-            name="organizationName"
-            placeholder="Enter your game's name"
-            minLength={2}
-            maxLength={100}
-            className="bg-transparent rounded-full text-xl py-2 px-4"
-          />
-
+          <Inputs items={inputsArray} />
           <button className="btn-4 px-8 py-2 w-max self-center font-mono text-xl rounded-full flex items-center gap-x-3 mb-10 duration-300 hover:bg-primary hover:bg-opacity-40 hover:text-front">
             {" "}
             <img
@@ -76,9 +110,33 @@ function RegisterModal(props: RegisterModalProps) {
   );
 }
 
-RegisterModal.propTypes = {
-  show: PropTypes.bool,
-  setShow: PropTypes.func,
-};
+interface InputsProps {
+  items: {
+    name: string;
+    type: string;
+    placeholder?: string;
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+  }[];
+}
+
+function Inputs(props: InputsProps) {
+  return (
+    <>
+      {props.items.map((item) => (
+        <input
+          type={item.type}
+          name={item.name}
+          placeholder={item.placeholder}
+          minLength={item.minLength}
+          maxLength={item.maxLength}
+          required={item.required || false}
+          className="bg-transparent rounded-full text-xl py-2 px-4"
+        />
+      ))}
+    </>
+  );
+}
 
 export default RegisterModal;

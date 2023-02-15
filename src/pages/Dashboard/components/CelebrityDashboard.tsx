@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function InfluencerDashboard() {return (
+export default function CelebrityDashboard() {return (
     <div>InfluencerDashboard</div>
   )
 }
