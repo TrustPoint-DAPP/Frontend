@@ -22,7 +22,7 @@ const organizationInputs: InputsProps = {
     {
       name: "description",
       type: "text",
-      placeholder: "Enter a description about your organization",
+      placeholder: "Describe your organization",
       required: true,
       minLength: 100,
       maxLength: 250,
@@ -60,7 +60,8 @@ function RegisterModal(props: RegisterModalProps) {
     alert("YASH AB ISKO LIKHEGA");
   }
 
-  const [inputsArray, setInputsArray] = useState([]);
+  const [inputsArray, setInputsArray] =
+    useState<InputsProps>(organizationInputs);
 
   const { show, setShow } = props;
   return (
@@ -84,6 +85,22 @@ function RegisterModal(props: RegisterModalProps) {
             />
           </button>
         </div>
+        <div className="flex">
+          <button
+            onClick={() => {
+              setInputsArray(organizationInputs);
+            }}
+          >
+            organization
+          </button>
+          <button
+            onClick={() => {
+              setInputsArray(CelebrityInputs);
+            }}
+          >
+            influencer
+          </button>
+        </div>
         <form
           className="flex flex-col gap-y-12 px-14"
           onSubmit={(event) => {
@@ -94,7 +111,7 @@ function RegisterModal(props: RegisterModalProps) {
           <div className="border-b border-front py-4 w-full text-2xl pr-[10vw]">
             Connect via MetaMask
           </div>
-          <Inputs items={inputsArray} />
+          <Inputs items={inputsArray.items} />
           <button className="btn-4 px-8 py-2 w-max self-center font-mono text-xl rounded-full flex items-center gap-x-3 mb-10 duration-300 hover:bg-primary hover:bg-opacity-40 hover:text-front">
             {" "}
             <img
