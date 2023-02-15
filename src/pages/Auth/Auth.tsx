@@ -65,6 +65,7 @@ function Auth() {
     useState<InputsProps>(organizationInputs);
 
   const authPanel = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const imagePanel = useRef() as React.MutableRefObject<HTMLDivElement>;
   const organizationPanelContainer =
     useRef() as React.MutableRefObject<HTMLDivElement>;
   const celebrityPanelContainer =
@@ -76,11 +77,23 @@ function Auth() {
     alert("YASH AB ISKO LIKHEGA");
   }
 
-  function changePanelContainer(container: HTMLElement) {
-    //move the floaty hover background
-    const state = Flip.getState(authPanel.current);
+  function changePanelContainer(
+    container: HTMLElement,
+    imageContainer: HTMLElement
+  ) {
+    //move the auth panel
+    const authPanelState = Flip.getState(authPanel.current);
     container.appendChild(authPanel.current);
-    Flip.from(state, {
+    Flip.from(authPanelState, {
+      duration: (inputsTransitionDuration * 2) / 1000,
+      absolute: true,
+      ease: "elastic.out(1,1)",
+    });
+
+    //move the image panel
+    const imagePanelState = Flip.getState(imagePanel.current);
+    imageContainer.appendChild(imagePanel.current);
+    Flip.from(imagePanelState, {
       duration: (inputsTransitionDuration * 2) / 1000,
       absolute: true,
       ease: "elastic.out(1,1)",
@@ -95,7 +108,7 @@ function Auth() {
       </div>
       <div className="p-page py-4 flex justify-between items-center bg-[#0000001E] backdrop-blur-3xl">
         <button
-          className="flex items-center top-6 left-6 px-6 py-4 bg-primary bg-opacity-10 rounded-2xl duration-300 hover:bg-opacity-80"
+          className="flex items-center top-6 left-6 px-6 py-4 bg-primary bg-opacity-10 rounded-2xl duration-300 group hover:text-back hover:bg-opacity-80"
           onClick={() => {
             navigate(-1);
           }}
@@ -103,7 +116,7 @@ function Auth() {
           <img
             src="/icons/back.svg"
             alt="close-icon"
-            className="w-8 mr-5 aspect-square brightness-0 invert"
+            className="w-8 mr-5 aspect-square brightness-0 invert duration-inherit group-hover:invert-0"
           />
           <p>BACK</p>
         </button>
@@ -113,11 +126,13 @@ function Auth() {
               title: "I'm an organization",
               inputs: organizationInputs,
               panelContainer: organizationPanelContainer,
+              imagePanelContainer: celebrityPanelContainer,
             },
             {
               title: "I'm an influencer",
               inputs: CelebrityInputs,
               panelContainer: celebrityPanelContainer,
+              imagePanelContainer: organizationPanelContainer,
             },
           ].map((btn) => (
             <button
@@ -125,7 +140,10 @@ function Auth() {
                 setTimeout(() => {
                   setInputsArray(btn.inputs);
                 }, inputsTransitionDuration / 3);
-                changePanelContainer(btn.panelContainer.current);
+                changePanelContainer(
+                  btn.panelContainer.current,
+                  btn.imagePanelContainer.current
+                );
               }}
               className={`${
                 inputsArray == btn.inputs ? "underline" : "italic"
@@ -175,7 +193,16 @@ function Auth() {
             transition: `transform : ${inputsTransitionDuration}ms, filter : ${inputsTransitionDuration}ms`,
           }}
           ref={celebrityPanelContainer}
-        ></div>
+        >
+          <div
+            className="flex w-max flex-col items-center backdrop-blur-3xl shadow-xl bg-gray-800 bg-opacity-20 rounded-4xl py-12 gap-y-6"
+            ref={imagePanel}
+            style={{
+              width: authPanel.current.offsetWidth,
+              height: authPanel.current.offsetHeight,
+            }}
+          ></div>
+        </div>
       </div>
     </section>
   );
@@ -189,7 +216,7 @@ interface InputsProps {
     required?: boolean;
     minLength?: number;
     maxLength?: number;
-    rows? : number;
+    rows?: number;
   }[];
 }
 
@@ -208,7 +235,7 @@ function Inputs(props: InputsProps) {
             minLength={item.minLength}
             maxLength={item.maxLength}
             required={item.required || false}
-            rows = {item.rows}
+            rows={item.rows}
             className="bg-transparent resize-none border border-front border-opacity-80 rounded-lg py-2 px-4 placeholder:text-front placeholder:text-opacity-60"
           />
         );
