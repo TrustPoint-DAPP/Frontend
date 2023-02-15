@@ -48,28 +48,14 @@ export default function FloatingBubblesBackground() {
     ];
 
     class Bubble {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      color: string;
-
       constructor(
-        x = 0,
-        y = 0,
-        vx = velocityRange[0],
-        vy = velocityRange[0],
-        size = sizeRange[0],
-        color = "#aaff33"
-      ) {
-        this.x = x;
-        this.y = y;
-        this.vx = vx;
-        this.vy = vy;
-        this.size = size;
-        this.color = color;
-      }
+        public x: number = 0,
+        public y: number = 0,
+        public vx: number = velocityRange[0],
+        public vy: number = velocityRange[0],
+        public size: number = sizeRange[0],
+        public color: string = "#aaff33"
+      ) {}
 
       update() {
         this.x += this.vx;

@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FloatingBubblesBackground from "../../components/FloatingBubblesBackground";
+import gsap from "gsap";
+import Flip from "gsap/Flip";
+
+gsap.registerPlugin(Flip);
 
 const organizationInputs: InputsProps = {
   items: [
@@ -18,11 +22,12 @@ const organizationInputs: InputsProps = {
     },
     {
       name: "description",
-      type: "text",
+      type: "textarea",
       placeholder: "Describe your organization",
       required: true,
       minLength: 100,
       maxLength: 250,
+      rows: 5,
     },
   ],
 };
@@ -43,26 +48,27 @@ const CelebrityInputs: InputsProps = {
     },
     {
       name: "bio",
-      type: "text",
+      type: "textarea",
       placeholder: "I am a...",
       required: true,
       minLength: 100,
       maxLength: 250,
+      rows: 5,
     },
   ],
 };
 
-const inputsTransitionDuration = 100; //in ms
+const inputsTransitionDuration = 200; //in ms
 
 function Auth() {
   const [inputsArray, setInputsArray] =
     useState<InputsProps>(organizationInputs);
 
-  const authPanel = useRef() as React.MutableRefObject<HTMLElement>;
+  const authPanel = useRef() as React.MutableRefObject<HTMLDivElement>;
   const organizationPanelContainer =
-    useRef() as React.MutableRefObject<HTMLElement>;
+    useRef() as React.MutableRefObject<HTMLDivElement>;
   const celebrityPanelContainer =
-    useRef() as React.MutableRefObject<HTMLElement>;
+    useRef() as React.MutableRefObject<HTMLDivElement>;
 
   const navigate = useNavigate();
 
@@ -70,12 +76,12 @@ function Auth() {
     alert("YASH AB ISKO LIKHEGA");
   }
 
-  function navbarLinkHover(container: HTMLElement) {
+  function changePanelContainer(container: HTMLElement) {
     //move the floaty hover background
     const state = Flip.getState(authPanel.current);
-    (container as HTMLElement).appendChild(authPanel.current);
+    container.appendChild(authPanel.current);
     Flip.from(state, {
-      duration: 0.5,
+      duration: (inputsTransitionDuration * 2) / 1000,
       absolute: true,
       ease: "elastic.out(1,1)",
     });
@@ -87,9 +93,9 @@ function Auth() {
         {" "}
         <FloatingBubblesBackground />{" "}
       </div>
-      <div className="pl-6 pt-6 flex justify-between items-center">
+      <div className="p-page py-4 flex justify-between items-center bg-[#0000001E] backdrop-blur-3xl">
         <button
-          className="flex items-center top-6 left-6 px-6 py-4 bg-primary bg-opacity-20 rounded-2xl duration-300 hover:bg-opacity-80"
+          className="flex items-center top-6 left-6 px-6 py-4 bg-primary bg-opacity-10 rounded-2xl duration-300 hover:bg-opacity-80"
           onClick={() => {
             navigate(-1);
           }}
@@ -101,7 +107,7 @@ function Auth() {
           />
           <p>BACK</p>
         </button>
-        <div className="flex justify-center gap-x-8">
+        <div className="flex justify-center items-center gap-x-16">
           {[
             {
               title: "I'm an organization",
@@ -118,9 +124,10 @@ function Auth() {
               onClick={() => {
                 setTimeout(() => {
                   setInputsArray(btn.inputs);
-                }, inputsTransitionDuration);
+                }, inputsTransitionDuration / 3);
+                changePanelContainer(btn.panelContainer.current);
               }}
-              className={`px-4 ${
+              className={`${
                 inputsArray == btn.inputs ? "underline" : "italic"
               }`}
             >
@@ -131,8 +138,14 @@ function Auth() {
         <div className="w-36" />
       </div>
       <div className="flex flex-1">
-        <div className="basis-1/2 flex justify-center items-center">
-          <div className="flex w-max flex-col items-center backdrop-blur-3xl shadow-xl bg-gray-800 bg-opacity-20 rounded-4xl py-14 gap-y-6">
+        <div
+          className="basis-1/2 flex justify-center items-center"
+          ref={organizationPanelContainer}
+        >
+          <div
+            className="flex w-max flex-col items-center backdrop-blur-3xl shadow-xl bg-gray-800 bg-opacity-20 rounded-4xl py-12 gap-y-6"
+            ref={authPanel}
+          >
             <form
               className="flex flex-col gap-y-12 px-14"
               onSubmit={(event) => {
@@ -156,7 +169,13 @@ function Auth() {
             </form>
           </div>
         </div>
-        <div className="basis-1/2 flex justify-center items-center"></div>
+        <div
+          className="basis-1/2 flex justify-center items-center"
+          style={{
+            transition: `transform : ${inputsTransitionDuration}ms, filter : ${inputsTransitionDuration}ms`,
+          }}
+          ref={celebrityPanelContainer}
+        ></div>
       </div>
     </section>
   );
@@ -170,36 +189,30 @@ interface InputsProps {
     required?: boolean;
     minLength?: number;
     maxLength?: number;
+    rows? : number;
   }[];
 }
 
 function Inputs(props: InputsProps) {
   const containerRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  useEffect(() => {
-    containerRef.current.style.opacity = "0%";
-    setTimeout(() => {
-      containerRef.current.style.opacity = "100%";
-    }, inputsTransitionDuration);
-  }, [props.items]);
-
   return (
-    <div
-      ref={containerRef}
-      className="flex flex-col gap-y-12"
-      style={{ transitionDuration: `${inputsTransitionDuration}ms` }}
-    >
-      {props.items.map((item) => (
-        <input
-          type={item.type}
-          name={item.name}
-          placeholder={item.placeholder}
-          minLength={item.minLength}
-          maxLength={item.maxLength}
-          required={item.required || false}
-          className="bg-transparent border-opacity-100 rounded-full text-xl py-2 px-4"
-        />
-      ))}
+    <div ref={containerRef} className="flex flex-col gap-y-12">
+      {props.items.map((item) => {
+        const Element = item.type === "textarea" ? "textarea" : "input";
+        return (
+          <Element
+            type={item.type}
+            name={item.name}
+            placeholder={item.placeholder}
+            minLength={item.minLength}
+            maxLength={item.maxLength}
+            required={item.required || false}
+            rows = {item.rows}
+            className="bg-transparent resize-none border border-front border-opacity-80 rounded-lg py-2 px-4 placeholder:text-front placeholder:text-opacity-60"
+          />
+        );
+      })}
     </div>
   );
 }
