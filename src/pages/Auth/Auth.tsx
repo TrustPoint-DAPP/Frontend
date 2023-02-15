@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-
-interface RegisterModalProps {
-  show: Boolean;
-  setShow: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { useNavigate } from "react-router-dom";
 
 const organizationInputs: InputsProps = {
   items: [
@@ -57,7 +53,7 @@ const CelebrityInputs: InputsProps = {
 
 const inputsTransitionDuration = 100; //in ms
 
-function RegisterModal(props: RegisterModalProps) {
+function Auth() {
   async function connectMetamaskasync() {
     alert("YASH AB ISKO LIKHEGA");
   }
@@ -65,19 +61,18 @@ function RegisterModal(props: RegisterModalProps) {
   const [inputsArray, setInputsArray] =
     useState<InputsProps>(organizationInputs);
 
-  const { show, setShow } = props;
+  const navigate = useNavigate();
+
   return (
     <div
-      className={`${
-        show ? "opacity-100" : "opacity-0 pointer-events-none"
-      } flex fixed top-0 left-0 w-full h-full z-[101] justify-center items-center bg-back bg-opacity-10 backdrop-blur-md duration-500`}
+      className={`flex fixed top-0 left-0 w-full h-full z-[101] justify-center items-center bg-back bg-opacity-10 backdrop-blur-md duration-500`}
     >
       <div className="flex flex-col items-center backdrop-blur-3xl shadow-2xl bg-foreground rounded-4xl p-4 gap-y-6">
         <div className="flex justify-end w-full">
           <button
             className="px-6 py-4 bg-primary bg-opacity-30 rounded-2xl duration-300 hover:bg-opacity-80"
             onClick={() => {
-              setShow(false);
+              navigate(-1);
             }}
           >
             <img
@@ -178,4 +173,4 @@ function Inputs(props: InputsProps) {
   );
 }
 
-export default RegisterModal;
+export default Auth;
