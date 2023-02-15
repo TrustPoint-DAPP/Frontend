@@ -9,12 +9,28 @@ function randomFromArray(arr: any[]) {
 }
 
 function getRandomThematicColor() {
-  return randomFromArray(["#66ff22", "#05d494", "#27d5e4", "#cce9e7"]);
+  return randomFromArray([
+    "#009900",
+    "#009966",
+    "#009949",
+    "#00998c",
+    "#006633",
+    "#006626",
+    "#006659",
+    "#00663c",
+    "#003300",
+    "#003333",
+    "#003346",
+    "#003349",
+    "#00338c",
+    "#00332f",
+    "#00cc9c",
+  ]);
 }
 
-const bubbleCount = 8;
+const bubbleCount = 18;
 const velocityRange = [1, 3];
-const sizeRange = [100, 300];
+const sizeRange = [200, 400];
 
 export default function FloatingBubblesBackground() {
   const canvas = useRef() as React.MutableRefObject<HTMLCanvasElement>;
@@ -96,16 +112,16 @@ export default function FloatingBubblesBackground() {
       for (let b of bubbles) {
         b.draw();
         if (b.x <= 0 && b.vx <= 0) {
-          b.vx = randomFromRange(velocityRange[0],velocityRange[1]);
+          b.vx = randomFromRange(velocityRange[0], velocityRange[1]);
         }
         if (b.x >= canvasWidth && b.vx >= 0) {
-          b.vx = -1 * Math.abs(b.vx);
+          b.vx = -1 * randomFromRange(velocityRange[0], velocityRange[1]);
         }
         if (b.y <= 0 && b.vy <= 0) {
-          b.vy = Math.abs(b.vy);
+          b.vy = randomFromRange(velocityRange[0], velocityRange[1]);
         }
         if (b.y >= canvasHeight && b.vy >= 0) {
-          b.vy = -1 * Math.abs(b.vy);
+          b.vy = -1 * randomFromRange(velocityRange[0], velocityRange[1]);
         }
       }
 

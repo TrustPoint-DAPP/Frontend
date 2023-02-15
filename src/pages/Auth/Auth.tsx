@@ -66,73 +66,68 @@ function Auth() {
 
   return (
     <section className="h-screen">
-      <div className="-z-[1] absolute top-0 left-0 w-full h-full blur-3xl">
+      <div className="-z-[1] absolute top-0 left-0 w-full h-full blur-[6rem]">
         {" "}
         <FloatingBubblesBackground />{" "}
       </div>
-      <div
-        className={`flex fixed top-0 left-0 w-full h-full z-[101] justify-center items-center bg-back bg-opacity-10 duration-500`}
+      <button
+        className="flex items-center px-6 py-4 bg-primary bg-opacity-30 rounded-2xl duration-300 hover:bg-opacity-80"
+        onClick={() => {
+          navigate(-1);
+        }}
       >
-        <div className="flex flex-col items-center backdrop-blur-3xl shadow-2xl bg-foreground rounded-4xl p-4 gap-y-6">
-          <div className="flex justify-end w-full">
+        <img
+          src="/icons/back.svg"
+          alt="close-icon"
+          className="w-8 mr-5 aspect-square brightness-0 invert"
+        />
+        <p>BACK</p>
+      </button>
+      <div className="flex w-max flex-col items-center backdrop-blur-3xl shadow-2xl bg-foreground rounded-4xl p-4 gap-y-6">
+        <div className="flex justify-center items-center w-full">
+          <p className="pr-2 whitespace-nowrap text-2xl">I'm a</p>
+          {[
+            { title: "organization", inputs: organizationInputs },
+            {
+              title: "influencer",
+              inputs: CelebrityInputs,
+            },
+          ].map((btn) => (
             <button
-              className="px-6 py-4 bg-primary bg-opacity-30 rounded-2xl duration-300 hover:bg-opacity-80"
               onClick={() => {
-                navigate(-1);
+                setTimeout(() => {
+                  setInputsArray(btn.inputs);
+                }, inputsTransitionDuration);
               }}
+              className={`px-4 ${
+                inputsArray == btn.inputs ? "underline" : "italic"
+              }`}
             >
-              <img
-                src="/icons/close.svg"
-                alt="close-icon"
-                className="w-8 aspect-square brightness-0 invert"
-              />
+              {btn.title}
             </button>
-          </div>
-          <div className="flex justify-center items-center w-full">
-            <p className="pr-2 whitespace-nowrap text-2xl">I'm a</p>
-            {[
-              { title: "organization", inputs: organizationInputs },
-              {
-                title: "influencer",
-                inputs: CelebrityInputs,
-              },
-            ].map((btn) => (
-              <button
-                onClick={() => {
-                  setTimeout(() => {
-                    setInputsArray(btn.inputs);
-                  }, inputsTransitionDuration);
-                }}
-                className={`px-4 ${
-                  inputsArray == btn.inputs ? "underline" : "italic"
-                }`}
-              >
-                {btn.title}
-              </button>
-            ))}
-          </div>
-          <form
-            className="flex flex-col gap-y-12 px-14"
-            onSubmit={(event) => {
-              event.preventDefault();
-              connectMetamaskasync();
-            }}
-          >
-            <div className="border-b border-front py-4 w-full text-2xl pr-[10vw]">
-              Connect via MetaMask
-            </div>
-            <Inputs items={inputsArray.items} />
-            <button className="btn-4 px-8 py-2 w-max self-center font-mono text-xl rounded-full flex items-center gap-x-3 mb-10 duration-300 hover:bg-primary hover:bg-opacity-40 hover:text-front">
-              {" "}
-              <img
-                src="/icons/metamask.svg"
-                alt="metamask-icon"
-                className="aspect-square w-[3ch]"
-              />{" "}
-              CONNECT{" "}
-            </button>
-          </form>
+          ))}
         </div>
+        <form
+          className="flex flex-col gap-y-12 px-14"
+          onSubmit={(event) => {
+            event.preventDefault();
+            connectMetamaskasync();
+          }}
+        >
+          <div className="border-b border-front py-4 w-full text-2xl pr-[10vw]">
+            Connect via MetaMask
+          </div>
+          <Inputs items={inputsArray.items} />
+          <button className="btn-4 px-8 py-2 w-max self-center font-mono text-xl rounded-full flex items-center gap-x-3 mb-10 duration-300 hover:bg-primary hover:bg-opacity-40 hover:text-front">
+            {" "}
+            <img
+              src="/icons/metamask.svg"
+              alt="metamask-icon"
+              className="aspect-square w-[3ch]"
+            />{" "}
+            CONNECT{" "}
+          </button>
+        </form>
       </div>
     </section>
   );
