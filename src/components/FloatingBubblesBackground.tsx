@@ -28,8 +28,8 @@ function getRandomThematicColor() {
   ]);
 }
 
-const bubbleCount = 18;
-const velocityRange = [1, 3];
+const bubbleCount = 20;
+const velocityRange = [1, 2];
 const sizeRange = [200, 400];
 
 export default function FloatingBubblesBackground() {

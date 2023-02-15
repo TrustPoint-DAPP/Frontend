@@ -13,12 +13,11 @@ export default function Navbar() {
     { name: "Popcorn", to: "/popcorn" },
   ];
 
-  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const navbarLinkHoverBg =
     useRef() as React.MutableRefObject<HTMLInputElement>;
 
   function navbarLinkHover(link: EventTarget) {
-    //move the floaty background
+    //move the floaty hover background
     const state = Flip.getState(navbarLinkHoverBg.current);
     (link as HTMLElement).appendChild(navbarLinkHoverBg.current);
     Flip.from(state, {
@@ -71,20 +70,14 @@ export default function Navbar() {
               className="h-7 brightness-0 invert opacity-70 hover:opacity-100 hover:scale-105 duration-300"
             />
           </button>
-          <button
+          <Link
+            to="/auth"
             className="bg-primary py-1 px-8 rounded-xl font-medium text-lg text-back duration-500 hover:bg-secondary"
-            onClick={() => {
-              setShowRegistrationModal(true);
-            }}
           >
             Join now
-          </button>
+          </Link>
         </div>
       </nav>
-      <RegisterModal
-        show={showRegistrationModal}
-        setShow={setShowRegistrationModal}
-      />
     </>
   );
 }
