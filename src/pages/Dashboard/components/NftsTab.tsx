@@ -13,18 +13,18 @@ interface NftsTabProps {
 
 function NftsTab(props: NftsTabProps) {
   return (
-    <div className="flex flex-wrap justify-between w-full gap-y-8 px-4 overflow-y-scroll h-full scrollbar-primary">
-      <div className="w-full">
-        <div className="w-full h-14"></div>
+    <div className="flex flex-col h-full">
+      <div className="w-full h-24" />
+      <div className="flex-1 grid grid-flow-row grid-cols-4 w-full gap-x-5 gap-y-8 px-4 overflow-y-scroll h-full scrollbar-primary">
+        {props.nfts.map((nft) => (
+          <NftCard
+            id={nft.id}
+            name={nft.name}
+            quantity={nft.quantity}
+            imageUrl={nft.imageUrl}
+          />
+        ))}
       </div>
-      {props.nfts.map((nft) => (
-        <NftCard
-          id={nft.id}
-          name={nft.name}
-          quantity={nft.quantity}
-          imageUrl={nft.imageUrl}
-        />
-      ))}
     </div>
   );
 }

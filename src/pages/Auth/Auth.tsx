@@ -65,7 +65,6 @@ function Auth() {
     useState<InputsProps>(organizationInputs);
 
   const authPanel = useRef() as React.MutableRefObject<HTMLDivElement>;
-  const imagePanel = useRef() as React.MutableRefObject<HTMLDivElement>;
   const organizationPanelContainer =
     useRef() as React.MutableRefObject<HTMLDivElement>;
   const celebrityPanelContainer =
@@ -73,27 +72,13 @@ function Auth() {
 
   const navigate = useNavigate();
 
-  async function connectMetamaskasync() {
-    alert("YASH AB ISKO LIKHEGA");
-  }
+  async function connectMetamaskasync() {}
 
-  function changePanelContainer(
-    container: HTMLElement,
-    imageContainer: HTMLElement
-  ) {
-    //move the auth panel
-    const authPanelState = Flip.getState(authPanel.current);
+  function changePanelContainer(container: HTMLElement) {
+    //move the panel into another container
+    const state = Flip.getState(authPanel.current);
     container.appendChild(authPanel.current);
-    Flip.from(authPanelState, {
-      duration: (inputsTransitionDuration * 2) / 1000,
-      absolute: true,
-      ease: "elastic.out(1,1)",
-    });
-
-    //move the image panel
-    const imagePanelState = Flip.getState(imagePanel.current);
-    imageContainer.appendChild(imagePanel.current);
-    Flip.from(imagePanelState, {
+    Flip.from(state, {
       duration: (inputsTransitionDuration * 2) / 1000,
       absolute: true,
       ease: "elastic.out(1,1)",
@@ -102,10 +87,25 @@ function Auth() {
 
   return (
     <section className="h-screen flex flex-col overflow-hidden">
-      <div className="-z-[1] absolute top-0 left-0 w-full h-full blur-[8rem]">
+      <div className="-z-[3] absolute top-0 left-0 w-full h-full blur-[8rem]">
         {" "}
         <FloatingBubblesBackground />{" "}
       </div>
+      <div
+        className="-z-[1] absolute top-0 left-0 w-full h-full"
+        style={
+          {
+            "--vignette-color": "#000000ff",
+            backgroundImage:
+              "linear-gradient(to bottom, var(--vignette-color), transparent, var(--vignette-color)), linear-gradient(to right, var(--vignette-color), var(--vignette-color), transparent, var(--vignette-color), var(--vignette-color))",
+            backgroundSize: "200% 100%",
+            backgroundPosition: `${
+              inputsArray === organizationInputs ? 25 : 75
+            }% 50%`,
+            transition: `background-position ${2 * inputsTransitionDuration}ms`,
+          } as React.CSSProperties
+        }
+      />
       <div className="p-page py-4 flex justify-between items-center bg-[#0000001E] backdrop-blur-3xl">
         <button
           className="flex items-center top-6 left-6 px-6 py-4 bg-primary bg-opacity-10 rounded-2xl duration-300 group hover:text-back hover:bg-opacity-80"
@@ -126,13 +126,11 @@ function Auth() {
               title: "I'm an organization",
               inputs: organizationInputs,
               panelContainer: organizationPanelContainer,
-              imagePanelContainer: celebrityPanelContainer,
             },
             {
               title: "I'm an influencer",
               inputs: CelebrityInputs,
               panelContainer: celebrityPanelContainer,
-              imagePanelContainer: organizationPanelContainer,
             },
           ].map((btn) => (
             <button
@@ -140,10 +138,7 @@ function Auth() {
                 setTimeout(() => {
                   setInputsArray(btn.inputs);
                 }, inputsTransitionDuration / 3);
-                changePanelContainer(
-                  btn.panelContainer.current,
-                  btn.imagePanelContainer.current
-                );
+                changePanelContainer(btn.panelContainer.current);
               }}
               className={`${
                 inputsArray == btn.inputs ? "underline" : "italic"
@@ -193,16 +188,7 @@ function Auth() {
             transition: `transform : ${inputsTransitionDuration}ms, filter : ${inputsTransitionDuration}ms`,
           }}
           ref={celebrityPanelContainer}
-        >
-          <div
-            className="flex w-max flex-col items-center backdrop-blur-3xl shadow-xl bg-gray-800 bg-opacity-20 rounded-4xl py-12 gap-y-6"
-            ref={imagePanel}
-            style={{
-              width: authPanel.current.offsetWidth,
-              height: authPanel.current.offsetHeight,
-            }}
-          ></div>
-        </div>
+        ></div>
       </div>
     </section>
   );

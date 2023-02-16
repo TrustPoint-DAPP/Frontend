@@ -63,7 +63,11 @@ export default function Navbar() {
           })}
         </div>
         <div className="navbar-right flex gap-x-6">
-          <button>
+          <button
+            onClick={() => {
+              window.open("/discord", "__blank__");
+            }}
+          >
             <img
               src="https://www.svgrepo.com/show/353655/discord-icon.svg"
               alt="discord-icon"

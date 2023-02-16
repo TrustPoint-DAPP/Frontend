@@ -28,8 +28,8 @@ function getRandomThematicColor() {
   ]);
 }
 
-const bubbleCount = 20;
-const velocityRange = [1, 2];
+const bubbleCount = 24;
+const velocityRange = [1.75, 2.5];
 const sizeRange = [200, 400];
 
 export default function FloatingBubblesBackground() {
@@ -82,8 +82,10 @@ export default function FloatingBubblesBackground() {
         const newBubble = new Bubble(
           randomFromRange(0, canvasWidth),
           randomFromRange(0, canvasHeight),
-          randomFromArray([-1,1]) * randomFromRange(velocityRange[0], velocityRange[1]),
-          randomFromArray([-1,1]) * randomFromRange(velocityRange[0], velocityRange[1]),
+          randomFromArray([-1, 1]) *
+            randomFromRange(velocityRange[0], velocityRange[1]),
+          randomFromArray([-1, 1]) *
+            randomFromRange(velocityRange[0], velocityRange[1]),
           randomFromRange(sizeRange[0], sizeRange[1]),
           getRandomThematicColor()
         );

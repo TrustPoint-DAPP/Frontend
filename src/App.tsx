@@ -20,6 +20,14 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/deal/:id" element={<DealPage />} />
         <Route path="/nft/:id" element={<NftPage />} />
+        <Route
+          path="/discord"
+          element={
+            <p className="flex justify-center items-center h-screen text-5xl italic font-semibold">
+              Discord coming soon...
+            </p>
+          }
+        />
       </Route>
     )
   );
