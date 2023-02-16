@@ -92,7 +92,7 @@ function Auth() {
         <FloatingBubblesBackground />{" "}
       </div>
       <div
-        className="-z-[1] absolute top-0 left-0 w-full h-full blur-xl"
+        className="-z-[1] absolute top-0 left-0 w-full h-full"
         style={
           {
             "--vignette-color": "#000000ff",
