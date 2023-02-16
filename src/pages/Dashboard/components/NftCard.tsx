@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 interface NftCardProps {
   id: number;
@@ -17,10 +18,10 @@ function NftCard(props: NftCardProps) {
       />
       <p className="truncate font-mono text-2xl font-thin tracking-tight"> {props.name} </p>
       <p className="text-front font-light text-opacity-70"> Supply : <span className="text-primary text-opacity-80"> {props.quantity} </span> </p>
-      <button className="flex items-center gap-x-2 btn-3 py-2 px-4">
+      <Link to={`/nft/${props.id}`} className="flex items-center gap-x-2 btn-3 py-2 px-4">
         View
         <span className="material-icons">&#xe89e;</span>
-      </button>
+      </Link>
     </div>
   );
 }

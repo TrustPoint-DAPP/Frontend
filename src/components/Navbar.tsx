@@ -10,7 +10,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "Help", to: "/help" },
     { name: "Deals", to: "/deals" },
-    { name: "Celebrities", to: "/celebrities" },
+    { name: "Celebs", to: "/celebrities" },
   ];
 
   const navbarLinkHoverBg =

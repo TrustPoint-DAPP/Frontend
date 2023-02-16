@@ -37,8 +37,10 @@ export default function Messages() {
   const [messages, setMessages] = useState<{}[]>();
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden relative">
       <Navbar />
+      <div className="w-[50vw] h-[80vh] absolute -z-[2] top-24 -left-[20vw] blur-3xl rounded-full bg-gradient-to-tr from-primary via-cyan-700 to-secondary opacity-10"></div>
+      <div className="w-[40vw] h-[70vh] absolute -z-[2] bottom-5 -right-[20vw] blur-3xl rounded-full bg-gradient-to-br from-pink-500 via-blue-400 to-secondary opacity-10"></div>
       <div className="h-screen flex p-page flex-col">
         <div className="h-24 w-full" />
         <div className="flex border-x border-front border-opacity-20 flex-1">
