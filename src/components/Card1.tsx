@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
 
 interface Card1Props {
@@ -50,14 +49,5 @@ function Card1(props: Card1Props) {
     </div>
   );
 }
-
-Card1.propTypes = {
-  image: PropTypes.string,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  interaction: PropTypes.string,
-  link: PropTypes.string,
-  className: PropTypes.string,
-};
 
 export default Card1;

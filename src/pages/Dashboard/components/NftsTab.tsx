@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import NftCard from "./NftCard";
 
 interface NftsTabProps {
@@ -28,7 +27,5 @@ function NftsTab(props: NftsTabProps) {
     </div>
   );
 }
-
-// NftsTab.propTypes = {};
 
 export default NftsTab;

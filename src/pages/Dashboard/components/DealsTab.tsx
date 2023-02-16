@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import DealCard from "./DealCard";
 
 interface DealsTabProps {
@@ -29,9 +28,5 @@ function DealsTab(props: DealsTabProps) {
     </div>
   );
 }
-
-DealsTab.propTypes = {
-  deals: PropTypes.arrayOf(PropTypes.object),
-};
 
 export default DealsTab;

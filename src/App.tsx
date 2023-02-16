@@ -9,6 +9,7 @@ import Auth from "./pages/Auth/Auth";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DealPage from "./pages/DealPage/DealPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import Messages from "./pages/Messages/Messages";
 import NftPage from "./pages/NftPage/NftPage";
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/deal/:id" element={<DealPage />} />
         <Route path="/nft/:id" element={<NftPage />} />
+        <Route path="/messages" element={<Messages />} />
         <Route
           path="/discord"
           element={

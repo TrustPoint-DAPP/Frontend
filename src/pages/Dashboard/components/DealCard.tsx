@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 interface DealCardProps {
@@ -27,12 +26,5 @@ function DealCard(props: DealCardProps) {
     </div>
   );
 }
-
-DealCard.propTypes = {
-  counterParty: PropTypes.string,
-  amount: PropTypes.number,
-  royalty: PropTypes.number,
-  imageUrl: PropTypes.string,
-};
 
 export default DealCard;

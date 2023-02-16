@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import PropTypes from "prop-types";
 import gsap from "gsap";
 import Flip from "gsap/Flip";
 
@@ -52,10 +51,5 @@ function NavigationTabs(props: NavigationTabsProps) {
     </div>
   );
 }
-
-NavigationTabs.propTypes = {
-  tabs: PropTypes.arrayOf(PropTypes.string),
-  setCurrentTab: PropTypes.func,
-};
 
 export default NavigationTabs;
