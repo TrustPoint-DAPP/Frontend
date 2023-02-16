@@ -17,7 +17,7 @@ export default function ChatsPanel(props: ChatsPanelProps) {
 
   return (
     <div className="w-1/3 flex flex-col scrollbar-primary">
-      <div className=" bg-front bg-opacity-30 flex">
+      <div className=" bg-front bg-opacity-20 flex">
         <img
           src="/icons/search.svg"
           alt="search-icon"

@@ -8,9 +8,9 @@ gsap.registerPlugin(Flip);
 
 export default function Navbar() {
   const navLinks = [
-    { name: "Gaming", to: "/gaming" },
+    { name: "Help", to: "/help" },
     { name: "Deals", to: "/deals" },
-    { name: "Popcorn", to: "/popcorn" },
+    { name: "Celebrities", to: "/celebrities" },
   ];
 
   const navbarLinkHoverBg =

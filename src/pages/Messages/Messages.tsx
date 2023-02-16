@@ -41,7 +41,7 @@ export default function Messages() {
       <Navbar />
       <div className="h-screen flex p-page flex-col">
         <div className="h-24 w-full" />
-        <div className="flex border border-front border-opacity-20 flex-1">
+        <div className="flex border-x border-front border-opacity-20 flex-1">
           <ChatsPanel chats={chats} />
           <Chat />
         </div>

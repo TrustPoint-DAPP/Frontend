@@ -3,6 +3,7 @@ import Footer from "../../components/Footer";
 import Card1 from "../../components/Card1";
 import { useState } from "react";
 import RegisterModal from "../../components/RegisterModal";
+import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   const promotionCards = [
@@ -21,8 +22,6 @@ export default function LandingPage() {
       link: "https://blockbuild.africa/the-concept-of-blockchain-in-zero-trust/",
     },
   ];
-
-  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
 
   return (
     <>
@@ -47,14 +46,9 @@ export default function LandingPage() {
             blanditiis voluptatum quod quos accusamus obcaecati praesentium!
           </p>
           <div className="flex items-center gap-x-10">
-            <button
-              className="btn-2 px-4 py-2"
-              onClick={() => {
-                setShowRegistrationModal(true);
-              }}
-            >
+            <Link className="btn-2 px-4 py-2" to="/auth">
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
         <div className="hero-right basis-1/2"></div>
@@ -88,10 +82,6 @@ export default function LandingPage() {
           })}
         </div>
       </section>
-      <RegisterModal
-        show={showRegistrationModal}
-        setShow={setShowRegistrationModal}
-      />
       <Footer />
     </>
   );

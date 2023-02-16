@@ -1,5 +1,9 @@
-import React from "react";
+interface MessageBubbleProps {
+  content: string;
+  self: boolean;
+  datetime: string;
+}
 
-export default function Message() {
-  return <div>Message</div>;
+export default function MessageBubbleProps(props: MessageBubbleProps) {
+  return <div className="max-w-[80%] truncate">{props.content}</div>;
 }
