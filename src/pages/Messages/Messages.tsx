@@ -34,7 +34,7 @@ export default function Messages() {
       unread: true,
     },
   ]);
-  const [messages, setMessages] = useState<{}[]>();
+  const [messages, setMessages] = useState(chats);
 
   return (
     <div className="overflow-hidden relative">
@@ -44,7 +44,7 @@ export default function Messages() {
       <div className="h-screen flex p-page flex-col">
         <div className="h-24 w-full" />
         <div className="flex border-x border-front border-opacity-20 flex-1">
-          <ChatsPanel chats={chats} />
+          <ChatsPanel chats={messages} />
           <Chat />
         </div>
       </div>
