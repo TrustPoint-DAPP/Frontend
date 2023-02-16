@@ -21,11 +21,11 @@ export default function ChatsPanel(props: ChatsPanelProps) {
         <img
           src="/icons/search.svg"
           alt="search-icon"
-          className="brightness-0 invert w-9 aspect-square p-2"
+          className="brightness-0 invert w-11 aspect-square p-2"
         />
         <input
           type="text"
-          className="flex-1 border-none bg-transparent focus:outline-none"
+          className="flex-1 border-none text-lg bg-transparent focus:outline-none"
           placeholder="Search"
           onChange={(event) => {
             setSearchQuery(event.target.value);
