@@ -77,10 +77,12 @@ function Auth() {
     useRef() as React.MutableRefObject<HTMLDivElement>;
   const celebrityPanelContainer =
     useRef() as React.MutableRefObject<HTMLDivElement>;
+  const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
 
   const navigate = useNavigate();
 
-  async function connectMetamaskasync() {
+  async function connectMetamaskasync(imageUploadRef : React.MutableRefObject<HTMLInputElement>) {
+    if (!(imageUploadRef.current.files && imageUploadRef.current.files[0])) return alert("Please upload an image");
     if (!authContext.provider) return;
     await authContext.provider.send("eth_requestAccounts", []);
     const signer = authContext.provider.getSigner();
@@ -100,14 +102,28 @@ function Auth() {
       `${API_BASE_URL}/${type.toLowerCase()}/auth/nonce/${address}`
     );
     const signature = await signer.signMessage(message);
+
+    const data = new FormData();
+    for (let inputField of inputsArray.items) {
+      data.append(
+        inputField.name,
+        (
+          formRef.current.elements.namedItem(
+            inputField.name
+          ) as HTMLInputElement
+        ).value
+      );
+    }
+    data.append("address", address);
+    data.append("signature", signature);
+    data.append("image", imageUploadRef.current.files[0]);
+
+
     const {
       data: { org, celeb, token },
     } = await axios.post(
       `${API_BASE_URL}/${type.toLowerCase()}/auth/register`,
-      {
-        address,
-        signature,
-      }
+      data
     );
     authContext.setAccount(address);
     authContext.setUserType(type);
@@ -205,6 +221,7 @@ function Auth() {
           >
             <form
               className="flex flex-col gap-y-12 px-14"
+              ref={formRef}
               onSubmit={(event) => {
                 event.preventDefault();
                 setShowImageUploadModal(true);

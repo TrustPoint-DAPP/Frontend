@@ -40,7 +40,7 @@ function ImageUploadModal(props: RegisterModalProps) {
           className="flex flex-col items-center gap-y-12 px-14"
           onSubmit={(event) => {
             event.preventDefault();
-            connectMetamaskasync();
+            props.actionButton(imageUploadRef)
           }}
         >
           <div className="border-b border-front py-4 w-full text-2xl pr-[10vw]">
