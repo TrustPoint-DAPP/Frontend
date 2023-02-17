@@ -134,6 +134,7 @@ function Auth() {
             },
           ].map((btn) => (
             <button
+              key={btn.title}
               onClick={() => {
                 setTimeout(() => {
                   setInputsArray(btn.inputs);
@@ -217,6 +218,7 @@ function Inputs(props: InputsProps) {
           <Element
             type={item.type}
             name={item.name}
+            key={item.name}
             placeholder={item.placeholder}
             minLength={item.minLength}
             maxLength={item.maxLength}

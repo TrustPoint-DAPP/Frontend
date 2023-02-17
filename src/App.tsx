@@ -62,7 +62,7 @@ export default function App() {
     });
   }, [provider, signer]);
 
-  if (error) return <ErrorPage error={error} />;
+  // if (error) return <ErrorPage error={error} />;
 
   const router = createBrowserRouter(
     createRoutesFromElements(

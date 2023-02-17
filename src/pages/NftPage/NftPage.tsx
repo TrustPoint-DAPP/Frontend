@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
-import Vibrant from "node-vibrant";
+import useImageColor from "../../hooks/useImageColor";
 
 const dummyNfts = [
   {
@@ -92,8 +92,10 @@ export default function NftPage() {
 
   const { id } = useParams();
 
+  console.log(useImageColor(nft?.imageUrl as string));
   useEffect(() => {
     setNft(dummyNfts.filter((nft) => nft.id === Number(id))[0]);
+    (async () => {})();
   }, []);
 
   return (
