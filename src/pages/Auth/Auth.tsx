@@ -1,8 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FloatingBubblesBackground from "../../components/FloatingBubblesBackground";
 import gsap from "gsap";
 import Flip from "gsap/Flip";
+import ImageUploadModal from "./components/ImageUploadModal";
+import { AuthContext } from "../../context";
+import axios from "axios";
+import { API_BASE_URL } from "../../constants";
 
 gsap.registerPlugin(Flip);
 
@@ -61,8 +65,12 @@ const CelebrityInputs: InputsProps = {
 const inputsTransitionDuration = 200; //in ms
 
 function Auth() {
+  const authContext = useContext(AuthContext);
+
   const [inputsArray, setInputsArray] =
     useState<InputsProps>(organizationInputs);
+  const [showImageUploadModal, setShowImageUploadModal] =
+    useState<boolean>(true);
 
   const authPanel = useRef() as React.MutableRefObject<HTMLDivElement>;
   const organizationPanelContainer =
@@ -72,7 +80,42 @@ function Auth() {
 
   const navigate = useNavigate();
 
-  async function connectMetamaskasync() {}
+  async function connectMetamaskasync() {
+    if (!authContext.provider) return;
+    await authContext.provider.send("eth_requestAccounts", []);
+    const signer = authContext.provider.getSigner();
+    const address = await signer.getAddress();
+    const {
+      data: { registered, type },
+    } = await axios.get(`${API_BASE_URL}/user/check/${address}`);
+    if (registered) {
+      // redirect to register page
+      alert("already registered");
+      navigate("/");
+      return;
+    }
+    const {
+      data: { message },
+    } = await axios.get(
+      `${API_BASE_URL}/${type.toLowerCase()}/auth/nonce/${address}`
+    );
+    const signature = await signer.signMessage(message);
+    const {
+      data: { org, celeb, token },
+    } = await axios.post(
+      `${API_BASE_URL}/${type.toLowerCase()}/auth/register`,
+      {
+        address,
+        signature,
+      }
+    );
+    authContext.setAccount(address);
+    authContext.setUserType(type);
+    authContext.setSigner(signer);
+    authContext.setToken(token);
+    if (type == "ORG") authContext.setOrg(org);
+    else authContext.setCeleb(celeb);
+  }
 
   function changePanelContainer(container: HTMLElement) {
     //move the panel into another container
@@ -164,7 +207,7 @@ function Auth() {
               className="flex flex-col gap-y-12 px-14"
               onSubmit={(event) => {
                 event.preventDefault();
-                connectMetamaskasync();
+                setShowImageUploadModal(true);
               }}
             >
               <div className="border-b border-front pb-4 w-full text-2xl pr-[10vw]">
@@ -191,6 +234,11 @@ function Auth() {
           ref={celebrityPanelContainer}
         ></div>
       </div>
+      <ImageUploadModal
+        show={showImageUploadModal}
+        setShow={setShowImageUploadModal}
+        actionButton={connectMetamaskasync}
+      />
     </section>
   );
 }
