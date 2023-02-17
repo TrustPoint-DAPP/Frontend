@@ -1,9 +1,49 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import Navbar from "../../components/Navbar";
+import { API_BASE_URL } from "../../constants";
+import { AuthContext } from "../../context";
 import Chat from "./components/Chat";
 import ChatsPanel from "./components/ChatsPanel";
 
 export default function Messages() {
+  const authContext = useContext(AuthContext);
+
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    const socket = io(API_BASE_URL, {
+      extraHeaders: { token: authContext.token as string },
+    });
+    socket.on("connect", () => {
+      setIsConnected(true);
+    });
+
+    socket.on("disconnect", () => {
+      setIsConnected(false);
+    });
+
+    socket.on("message", (message) => {
+      console.log(message);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("message");
+    };
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(`${API_BASE_URL}/chat/`, {
+        headers: { Authorization: `Bearer ${authContext.token}` },
+      });
+      console.log(data);
+    })();
+  }, []);
+
   const [chats, setChats] = useState([
     {
       id: 0,

@@ -66,12 +66,23 @@ export default function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={
-      <Root />}>
-        <Route index element={<OnlyUnauthenticated><LandingPage /></OnlyUnauthenticated>} />
-        <Route path="/auth" element={<OnlyUnauthenticated> 
-          <Auth />
-          </OnlyUnauthenticated>} />
+      <Route path="/" element={<Root />}>
+        <Route
+          index
+          element={
+            <OnlyUnauthenticated>
+              <LandingPage />
+            </OnlyUnauthenticated>
+          }
+        />
+        <Route
+          path="/auth"
+          element={
+            <OnlyUnauthenticated>
+              <Auth />
+            </OnlyUnauthenticated>
+          }
+        />
         <Route
           path="/dashboard"
           element={
@@ -82,7 +93,14 @@ export default function App() {
         />
         <Route path="/deal/:id" element={<DealPage />} />
         <Route path="/nft/:id" element={<NftPage />} />
-        <Route path="/messages" element={<Messages />} />
+        <Route
+          path="/messages"
+          element={
+            <OnlyAuthenticated>
+              <Messages />
+            </OnlyAuthenticated>
+          }
+        />
         <Route
           path="/discord"
           element={
