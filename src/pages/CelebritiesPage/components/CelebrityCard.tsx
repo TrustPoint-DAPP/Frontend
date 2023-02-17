@@ -1,9 +1,12 @@
-import React from "react";
+import axios from "axios";
+import React, { EventHandler } from "react";
 
 interface CelebrityCardProps {
   id: number;
   name: string;
   imageUrl: string;
+  initializeChat: Function;
+  showActionButton: boolean;
 }
 
 export default function CelebrityCard(props: CelebrityCardProps) {
@@ -17,9 +20,14 @@ export default function CelebrityCard(props: CelebrityCardProps) {
           <h4 className="truncate text-lg font-semibold capitalize px-2">
             {props.name}
           </h4>
-          <button className="bg-back rounded-full px-4 py-2 cursor-pointer duration-500 hover:bg-secondary hover:bg-opacity-50">
-            Chat
-          </button>
+          {props.showActionButton && (
+            <button
+              onClick={props.initializeChat as any}
+              className="bg-back rounded-full px-4 py-2 cursor-pointer duration-500 hover:bg-secondary hover:bg-opacity-50"
+            >
+              Chat
+            </button>
+          )}
         </div>
       </div>
     </div>

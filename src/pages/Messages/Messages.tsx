@@ -40,7 +40,7 @@ export default function Messages() {
       const { data } = await axios.get(`${API_BASE_URL}/chat/`, {
         headers: { Authorization: `Bearer ${authContext.token}` },
       });
-      console.log(data);
+      setChats(data);
     })();
   }, []);
 

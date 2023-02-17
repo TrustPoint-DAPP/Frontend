@@ -1,5 +1,10 @@
-import React from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import { API_BASE_URL, IPFS_BASE_URL } from "../../constants";
+import { AuthContext } from "../../context";
+import { Celeb } from "../../interfaces/Database";
 import CelebrityCard from "./components/CelebrityCard";
 
 const celebs = [
@@ -74,6 +79,34 @@ const celebs = [
 ];
 
 export default function CelebritiesPage() {
+  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [celebs, setCelebs] = useState<Celeb[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const {
+        data: { celebs: celebrities },
+      } = await axios(`${API_BASE_URL}/celeb/`);
+      setCelebs(celebrities);
+    })();
+  }, []);
+
+  async function initializeChat(id: number) {
+    if (!authContext.token)
+      return alert(
+        "Chats can only be initialized by registered users. Please register first!"
+      );
+    await axios.post(
+      `${API_BASE_URL}/chat/initiate/${id}`,
+      {},
+      { headers: { Authorization: `Bearer ${authContext.token}` } }
+    );
+    navigate(`/messages/${id}`);
+  }
+
+  console.log(authContext.userType === "ORG");
+
   return (
     <div>
       <Navbar />
@@ -86,8 +119,12 @@ export default function CelebritiesPage() {
               <CelebrityCard
                 key={celeb.id}
                 id={celeb.id}
-                name={celeb.name}
-                imageUrl={celeb.imageUrl}
+                name={celeb.name as string}
+                initializeChat={() => initializeChat(celeb.id)}
+                imageUrl={`${IPFS_BASE_URL}/f${(celeb.imageCID as string).slice(
+                  2
+                )}`}
+                showActionButton={authContext.userType === "ORG"}
               />
             </>
           );
