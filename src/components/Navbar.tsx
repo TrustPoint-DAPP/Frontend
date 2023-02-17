@@ -1,17 +1,59 @@
-import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import RegisterModal from "./RegisterModal";
 import gsap from "gsap";
 import Flip from "gsap/Flip";
+import { ethers } from "ethers";
+import { AuthContext } from "../context";
+import axios from "axios";
+import { API_BASE_URL } from "../constants";
+import { getShortAddress } from "../helpers";
 
 gsap.registerPlugin(Flip);
 
 export default function Navbar() {
+  const authContext = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const navLinks = [
     { name: "Help", to: "/help" },
     { name: "Deals", to: "/deals" },
     { name: "Celebs", to: "/celebrities" },
   ];
+
+  async function connect() {
+    if (!authContext.provider) return;
+    await authContext.provider.send("eth_requestAccounts", []);
+    const signer = authContext.provider.getSigner();
+    const address = await signer.getAddress();
+    const {
+      data: { registered, type },
+    } = await axios.get(`${API_BASE_URL}/user/check/${address}`);
+    if (!registered) {
+      // redirect to register page
+      navigate("/auth");
+      return;
+    }
+    const {
+      data: { message },
+    } = await axios.get(
+      `${API_BASE_URL}/${type.toLowerCase()}/auth/nonce/${address}`
+    );
+    const signature = await signer.signMessage(message);
+    const {
+      data: { org, celeb, token },
+    } = await axios.post(`${API_BASE_URL}/${type.toLowerCase()}/auth/login`, {
+      address,
+      signature,
+    });
+    authContext.setAccount(address);
+    authContext.setUserType(type);
+    authContext.setSigner(signer);
+    authContext.setToken(token);
+    if (type == "ORG") authContext.setOrg(org);
+    else authContext.setCeleb(celeb);
+    navigate("/dashboard");
+  }
 
   const navbarLinkHoverBg =
     useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -31,7 +73,7 @@ export default function Navbar() {
     <>
       <nav className="p-page z-[100] fixed w-full flex justify-between items-center bg-[#0000001E] text-front py-5 backdrop-blur-3xl">
         <div className="navbar-left">
-          <Link to="/">
+          <Link to={authContext.token ? "/dashboard" : "/"}>
             <img
               src="/images/brand-name.png"
               alt="brand-name"
@@ -74,12 +116,16 @@ export default function Navbar() {
               className="h-7 brightness-0 invert opacity-70 hover:opacity-100 hover:scale-105 duration-300"
             />
           </button>
-          <Link
-            to="/auth"
-            className="bg-primary py-1 px-8 rounded-xl font-medium text-lg text-back duration-500 hover:bg-secondary"
-          >
-            Join now
-          </Link>
+          {authContext.token ? (
+            <>{getShortAddress(authContext.account)}</>
+          ) : (
+            <button
+              onClick={connect}
+              className="bg-primary py-1 px-8 rounded-xl font-medium text-lg text-back duration-500 hover:bg-secondary"
+            >
+              Join now
+            </button>
+          )}
         </div>
       </nav>
     </>
