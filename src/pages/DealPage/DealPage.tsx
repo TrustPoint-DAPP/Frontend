@@ -86,7 +86,10 @@ export default function DealPage() {
               <Placeholder />
             )}
           </h3>
-          <Link to={`/nft/${dealData.nft.id}`} className="w-max flex gap-x-2 items-center btn-3 px-4 py-2 text-xl">
+          <Link
+            to={`/nft/${dealData.nft.id}`}
+            className="w-max flex gap-x-2 items-center btn-3 px-4 py-2 text-xl"
+          >
             View
             <span className="material-icons">&#xe89e;</span>
           </Link>
@@ -110,7 +113,8 @@ export default function DealPage() {
             {dealData.royalty ? (
               <>
                 Royalty :{" "}
-                <span className="text-primary"> {dealData.royalty}%</span> {`($2k till date)`}
+                <span className="text-primary"> {dealData.royalty}%</span>{" "}
+                {`($2k till date)`}
               </>
             ) : (
               <Placeholder />

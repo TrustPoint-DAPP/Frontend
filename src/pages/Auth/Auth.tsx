@@ -270,7 +270,7 @@ function Auth() {
 }
 
 interface InputsProps {
-  type: "ORG" | "CELEB"
+  type: "ORG" | "CELEB";
   items: {
     name: string;
     type: string;
