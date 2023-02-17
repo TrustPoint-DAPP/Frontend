@@ -13,6 +13,7 @@ import { CHAIN_ID } from "./constants";
 import { AuthContext } from "./context";
 import { Celeb, Organization } from "./interfaces/Database";
 import Auth from "./pages/Auth/Auth";
+import CelebritiesPage from "./pages/CelebritiesPage/CelebritiesPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DealPage from "./pages/DealPage/DealPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
@@ -91,6 +92,7 @@ export default function App() {
             </OnlyAuthenticated>
           }
         />
+        <Route path="/celebrities" element={<CelebritiesPage />} />
         <Route path="/deal/:id" element={<DealPage />} />
         <Route path="/nft/:id" element={<NftPage />} />
         <Route

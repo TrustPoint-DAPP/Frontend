@@ -7,7 +7,7 @@ import { ethers } from "ethers";
 import { AuthContext } from "../context";
 import axios from "axios";
 import { API_BASE_URL } from "../constants";
-import { getShortAddress } from "../helpers";
+import getShortAddress from "../utils/getShortAddress";
 
 gsap.registerPlugin(Flip);
 
@@ -52,7 +52,6 @@ export default function Navbar() {
     authContext.setToken(token);
     if (type == "ORG") authContext.setOrg(org);
     else authContext.setCeleb(celeb);
-    navigate("/dashboard");
   }
 
   const navbarLinkHoverBg =
@@ -104,7 +103,7 @@ export default function Navbar() {
             );
           })}
         </div>
-        <div className="navbar-right flex gap-x-6">
+        <div className="navbar-right flex items-center gap-x-6">
           <button
             onClick={() => {
               window.open("/discord", "__blank__");
@@ -117,7 +116,16 @@ export default function Navbar() {
             />
           </button>
           {authContext.token ? (
-            <>{getShortAddress(authContext.account)}</>
+            <button
+              className="border-2 border-tertiary rounded-xl px-4 py-1"
+              onClick={() => {
+                if (confirm("logout?")) {
+                  location.reload();
+                }
+              }}
+            >
+              {getShortAddress(authContext.account)}
+            </button>
           ) : (
             <button
               onClick={connect}
