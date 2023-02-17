@@ -168,8 +168,8 @@ function Auth() {
       <div className="p-page py-4 flex justify-between items-center bg-[#0000001E] backdrop-blur-3xl">
         <button
           className="flex items-center top-6 left-6 px-6 py-4 bg-primary bg-opacity-10 rounded-2xl duration-300 group hover:text-back hover:bg-opacity-80"
-          onClick={() => {
-            navigate(-1);
+            onClick={() => {
+              navigate(-1);
           }}
         >
           <img
@@ -200,9 +200,9 @@ function Auth() {
                 }, inputsTransitionDuration / 3);
                 changePanelContainer(btn.panelContainer.current);
               }}
-              className={`${
-                inputsArray == btn.inputs ? "underline" : "italic"
-              }`}
+              className={`px-3 py-1 duration-200 ${
+                inputsArray == btn.inputs ? "bg-front bg-opacity-20 rounded-lg" : "underline"
+              } hover:no-underline`}
             >
               {btn.title}
             </button>

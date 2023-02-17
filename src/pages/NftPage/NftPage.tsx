@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import useImageColor from "../../hooks/useImageColor";
 
@@ -92,17 +92,43 @@ export default function NftPage() {
 
   const { id } = useParams();
 
-  console.log(useImageColor(nft?.imageUrl as string));
   useEffect(() => {
     setNft(dummyNfts.filter((nft) => nft.id === Number(id))[0]);
-    (async () => {})();
   }, []);
+
+  const navigate = useNavigate();
 
   return (
     <>
       <Navbar />
       <div className="h-24"></div>
-      <img src={nft?.imageUrl} alt={`${nft?.name} NFT image`} />
+      <div className="flex h-[80vh] p-page">
+        <div className="basis-1/2">
+          <div className="">
+            <button
+              className="flex items-center px-3 py-2 bg-primary bg-opacity-10 rounded-lg duration-300 group hover:text-back hover:bg-opacity-80"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              <img
+                src="/icons/back.svg"
+                alt="close-icon"
+                className="w-6 mr-3 aspect-square brightness-0 invert duration-inherit group-hover:invert-0"
+              />
+              <p>BACK</p>
+            </button>
+          </div>
+          <div className="py-6 font-mono font-black text-7xl text-center text-front">{nft?.name}</div>
+        </div>
+        <div className="basis-1/2 flex justify-center items-center">
+          <img
+            src={nft?.imageUrl}
+            alt={`${nft?.name} NFT image`}
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+      </div>
     </>
   );
 }

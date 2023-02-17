@@ -14,7 +14,6 @@ import { Celeb, Organization } from "./interfaces/Database";
 import Auth from "./pages/Auth/Auth";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DealPage from "./pages/DealPage/DealPage";
-import ErrorPage from "./pages/ErrorPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import Messages from "./pages/Messages/Messages";
 import NftPage from "./pages/NftPage/NftPage";

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 interface RegisterModalProps {
   show: Boolean;
@@ -12,6 +12,9 @@ function ImageUploadModal(props: RegisterModalProps) {
   }
 
   const imageUploadRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const [imagePreview, setImagePreview] = useState(
+    "/images/default-profile.jpg"
+  );
 
   const { show, setShow } = props;
 
@@ -40,29 +43,31 @@ function ImageUploadModal(props: RegisterModalProps) {
           className="flex flex-col items-center gap-y-12 px-14"
           onSubmit={(event) => {
             event.preventDefault();
-            props.actionButton(imageUploadRef)
+            props.actionButton(imageUploadRef);
           }}
         >
           <div className="border-b border-front py-4 w-full text-2xl pr-[10vw]">
             Uplaod a profile picture
           </div>
           <img
-            src={
-              ((
-                imageUploadRef.current?.files
-                  ? imageUploadRef.current?.files[0]
-                  : false
-              )
-                ? URL.createObjectURL(
-                    (imageUploadRef.current.files as FileList)[0]
-                  )
-                : false) ||
-              "https://dailyhodl.com/wp-content/uploads/2021/12/ross-sells-nft.jpg"
-            }
+            src={imagePreview}
             alt="Profile Picture preview"
-            className="w-48 rounded-full object-cover aspect-square"
+            draggable={false}
+            placeholder="Choose a custom picture"
+            className="w-48 border-2 rounded-full object-cover aspect-square"
           />
-          <input type="file" ref={imageUploadRef} className="rounded-full" />
+          <input
+            type="file"
+            ref={imageUploadRef}
+            className="rounded-full"
+            onChange={() => {
+              setImagePreview(
+                URL.createObjectURL(
+                  (imageUploadRef.current.files as FileList)[0]
+                )
+              );
+            }}
+          />
           <button className="btn-4 px-8 py-2 w-max self-center font-mono text-xl rounded-full flex items-center gap-x-3 mb-10 duration-300 hover:bg-primary hover:bg-opacity-40 hover:text-front">
             {" "}
             <img
