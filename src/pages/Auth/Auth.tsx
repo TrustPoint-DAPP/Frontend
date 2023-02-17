@@ -11,6 +11,7 @@ import { API_BASE_URL } from "../../constants";
 gsap.registerPlugin(Flip);
 
 const organizationInputs: InputsProps = {
+  type: "ORG",
   items: [
     {
       name: "name",
@@ -37,6 +38,7 @@ const organizationInputs: InputsProps = {
 };
 
 const CelebrityInputs: InputsProps = {
+  type: "CELEB",
   items: [
     {
       name: "name",
@@ -81,14 +83,17 @@ function Auth() {
 
   const navigate = useNavigate();
 
-  async function connectMetamaskasync(imageUploadRef : React.MutableRefObject<HTMLInputElement>) {
-    if (!(imageUploadRef.current.files && imageUploadRef.current.files[0])) return alert("Please upload an image");
+  async function connectMetamaskasync(
+    imageUploadRef: React.MutableRefObject<HTMLInputElement>
+  ) {
+    if (!(imageUploadRef.current.files && imageUploadRef.current.files[0]))
+      return alert("Please upload an image");
     if (!authContext.provider) return;
     await authContext.provider.send("eth_requestAccounts", []);
     const signer = authContext.provider.getSigner();
     const address = await signer.getAddress();
     const {
-      data: { registered, type },
+      data: { registered },
     } = await axios.get(`${API_BASE_URL}/user/check/${address}`);
     if (registered) {
       // redirect to register page
@@ -96,11 +101,13 @@ function Auth() {
       navigate("/");
       return;
     }
+    const type = inputsArray.type;
+    console.log(inputsArray);
+    console.log(inputsArray, organizationInputs, type);
+    console.log(registered);
     const {
       data: { message },
-    } = await axios.get(
-      `${API_BASE_URL}/${type.toLowerCase()}/auth/nonce/${address}`
-    );
+    } = await axios.get(`${API_BASE_URL}/${type}/auth/nonce/${address}`);
     const signature = await signer.signMessage(message);
 
     const data = new FormData();
@@ -118,7 +125,6 @@ function Auth() {
     data.append("signature", signature);
     data.append("image", imageUploadRef.current.files[0]);
 
-
     const {
       data: { org, celeb, token },
     } = await axios.post(
@@ -131,6 +137,7 @@ function Auth() {
     authContext.setToken(token);
     if (type == "ORG") authContext.setOrg(org);
     else authContext.setCeleb(celeb);
+    navigate("/dashboard");
   }
 
   function changePanelContainer(container: HTMLElement) {
@@ -168,8 +175,8 @@ function Auth() {
       <div className="p-page py-4 flex justify-between items-center bg-[#0000001E] backdrop-blur-3xl">
         <button
           className="flex items-center top-6 left-6 px-6 py-4 bg-primary bg-opacity-10 rounded-2xl duration-300 group hover:text-back hover:bg-opacity-80"
-            onClick={() => {
-              navigate(-1);
+          onClick={() => {
+            navigate(-1);
           }}
         >
           <img
@@ -201,7 +208,9 @@ function Auth() {
                 changePanelContainer(btn.panelContainer.current);
               }}
               className={`px-3 py-1 duration-200 ${
-                inputsArray == btn.inputs ? "bg-front bg-opacity-20 rounded-lg" : "underline"
+                inputsArray == btn.inputs
+                  ? "bg-front bg-opacity-20 rounded-lg"
+                  : "underline"
               } hover:no-underline`}
             >
               {btn.title}
@@ -230,15 +239,15 @@ function Auth() {
               <div className="border-b border-front pb-4 w-full text-2xl pr-[10vw]">
                 Connect via MetaMask
               </div>
-              <Inputs items={inputsArray.items} />
-              <button className="btn-4 px-8 py-2 w-max self-center font-mono text-xl rounded-full flex items-center gap-x-3 duration-300 hover:bg-primary hover:bg-opacity-40 hover:text-front">
+              <Inputs items={inputsArray.items} type={inputsArray.type} />
+              <button className="btn-4 px-8 py-2 w-max self-center font-mono text-xl rounded-full group flex items-center gap-x-3 duration-300 hover:bg-primary hover:bg-opacity-40 hover:text-front">
                 {" "}
                 <img
-                  src="/icons/metamask.svg"
-                  alt="metamask-icon"
-                  className="aspect-square w-[3ch]"
+                  src="/icons/login.svg"
+                  alt="login-icon"
+                  className="aspect-square w-[3ch] brightness-0 group-hover:invert "
                 />{" "}
-                CONNECT{" "}
+                REGISTER{" "}
               </button>
             </form>
           </div>
@@ -261,6 +270,7 @@ function Auth() {
 }
 
 interface InputsProps {
+  type: "ORG" | "CELEB"
   items: {
     name: string;
     type: string;

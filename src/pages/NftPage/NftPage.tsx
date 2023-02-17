@@ -99,11 +99,16 @@ export default function NftPage() {
   const navigate = useNavigate();
 
   return (
-    <>
+    <div className="overflow-x-hidden">
       <Navbar />
       <div className="h-24"></div>
-      <div className="flex h-[80vh] p-page">
-        <div className="basis-1/2">
+      <img
+        src={nft?.imageUrl}
+        alt={`${nft?.name} NFT image`}
+        className="absolute -left-0 -translate-x-1/2 top-[50vh] -translate-y-1/2 blur-[7rem] opacity-20 rounded-full aspect-square object-cover h-[60vh]"
+      />
+      <section className="flex h-[80vh] p-page">
+        <div className="basis-1/2 flex flex-col">
           <div className="">
             <button
               className="flex items-center px-3 py-2 bg-primary bg-opacity-10 rounded-lg duration-300 group hover:text-back hover:bg-opacity-80"
@@ -119,16 +124,42 @@ export default function NftPage() {
               <p>BACK</p>
             </button>
           </div>
-          <div className="py-6 font-mono font-black text-7xl text-center text-front">{nft?.name}</div>
+          <div className="my-5 border-front border-opacity-50 border-b py-5 font-mono font-black text-7xl text-front">
+            {nft?.name}
+          </div>
+          <p className="text-3xl">
+            Total :{" "}
+            <span className="text-primary text-opacity-80">
+              {nft?.quantity}
+            </span>{" "}
+          </p>
+          <div className="flex-1 flex justify-center items-center">
+            <button className="btn-2 px-5 text-4xl py-3">
+              <img
+                src="/icons/add.svg"
+                alt="add icon"
+                className="aspect-square w-10 mr-3 brightness-0 invert"
+              />
+              MINT
+            </button>
+          </div>
         </div>
-        <div className="basis-1/2 flex justify-center items-center">
+        <div className="basis-1/2 relative flex justify-center items-center p-12">
           <img
             src={nft?.imageUrl}
             alt={`${nft?.name} NFT image`}
-            className="max-w-full max-h-full object-contain"
+            className="w-full h-full object-contain"
           />
+          <div className="absolute p-10 blur-3xl -z-[1] left-0 top-0 w-full h-full flex justify-center opacity-30 items-center">
+            <img
+              src={nft?.imageUrl}
+              alt={`${nft?.name} NFT image`}
+              className="w-full h-full object-contain"
+            />
+          </div>
         </div>
-      </div>
-    </>
+      </section>
+      <section className="h-screen"></section>
+    </div>
   );
 }

@@ -8,6 +8,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import OnlyAuthenticated from "./components/OnlyAuthenticated";
+import OnlyUnauthenticated from "./components/OnlyUnauthenticated";
 import { CHAIN_ID } from "./constants";
 import { AuthContext } from "./context";
 import { Celeb, Organization } from "./interfaces/Database";
@@ -65,9 +66,12 @@ export default function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Root />}>
-        <Route index element={<LandingPage />} />
-        <Route path="/auth" element={<Auth />} />
+      <Route path="/" element={
+      <Root />}>
+        <Route index element={<OnlyUnauthenticated><LandingPage /></OnlyUnauthenticated>} />
+        <Route path="/auth" element={<OnlyUnauthenticated> 
+          <Auth />
+          </OnlyUnauthenticated>} />
         <Route
           path="/dashboard"
           element={
