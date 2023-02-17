@@ -21,6 +21,7 @@ function NftsTab(props: NftsTabProps) {
             name={nft.name}
             quantity={nft.quantity}
             imageUrl={nft.imageUrl}
+            key={nft.id}
           />
         ))}
       </div>
