@@ -106,8 +106,6 @@ export default function CelebritiesPage() {
     navigate(`/messages/${id}`);
   }
 
-  console.log(authContext.userType === "ORG");
-
   return (
     <div>
       <Navbar />

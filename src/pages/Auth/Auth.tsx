@@ -72,7 +72,7 @@ function Auth() {
   const [inputsArray, setInputsArray] =
     useState<InputsProps>(organizationInputs);
   const [showImageUploadModal, setShowImageUploadModal] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
   const authPanel = useRef() as React.MutableRefObject<HTMLDivElement>;
   const organizationPanelContainer =
@@ -102,9 +102,6 @@ function Auth() {
       return;
     }
     const type = inputsArray.type;
-    console.log(inputsArray);
-    console.log(inputsArray, organizationInputs, type);
-    console.log(registered);
     const {
       data: { message },
     } = await axios.get(`${API_BASE_URL}/${type}/auth/nonce/${address}`);
@@ -245,7 +242,7 @@ function Auth() {
                 <img
                   src="/icons/login.svg"
                   alt="login-icon"
-                  className="aspect-square w-[3ch] brightness-0 group-hover:invert "
+                  className="aspect-square w-[3ch] brightness-0 duration-inherit group-hover:invert "
                 />{" "}
                 REGISTER{" "}
               </button>

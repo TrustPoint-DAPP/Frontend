@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Celeb, Message, Organization } from "../../../interfaces/Database";
 import MessageBubbleProps from "./MessageBubble";
 
-export default function Chat({
-  messages,
-  userType,
-}: {
+interface ChatProps {
   messages: (Message & { celeb: Celeb; org: Organization })[];
   userType: "ORG" | "CELEB";
-}) {
+  selectedUser: string | null;
+}
+
+export default function Chat(props: ChatProps) {
   // const [currentChat, setCurrentChat] = useState(
   //   [
   //     { content: "Mummy ka payra dush", self: true, datetime: "12/12/2022" },
@@ -60,14 +60,14 @@ export default function Chat({
   return (
     <div className="flex-1 h-full flex flex-col border-front border-l border-opacity-20">
       <div className="py-2  text-lg font-medium tracking-wider italic text-center bg-foreground text-front">
-        Jain Sanghatan
+        {props.selectedUser || "Please select a chat"}
       </div>
       <div className="flex-1 flex flex-col p-3 gap-y-6 scrollbar-primary">
-        {messages.map((message) => (
+        {props.messages.map((message) => (
           <MessageBubbleProps
             content={message.text as string}
             datetime={new Date(message.createdAt).toLocaleString()}
-            self={message.sender === userType}
+            self={message.sender === props.userType}
             key={message.id}
           />
         ))}

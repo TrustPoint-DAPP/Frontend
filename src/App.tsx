@@ -41,8 +41,6 @@ export default function App() {
     );
     // reload on network change
     provider.on("network", (newNetwork, oldNetwork) => {
-      console.log(oldNetwork);
-      console.log(newNetwork);
       if (oldNetwork) {
         window.location.reload();
       }

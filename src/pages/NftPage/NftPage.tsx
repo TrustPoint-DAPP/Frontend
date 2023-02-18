@@ -105,7 +105,7 @@ export default function NftPage() {
       <img
         src={nft?.imageUrl}
         alt={`${nft?.name} NFT image`}
-        className="absolute -left-0 -translate-x-1/2 top-[50vh] -translate-y-1/2 blur-[7rem] opacity-20 rounded-full aspect-square object-cover h-[60vh]"
+        className="absolute left-32 -translate-x-1/2 top-[50vh] -translate-y-1/2 blur-[7rem] opacity-30 rounded-full aspect-square object-cover h-[60vh]"
       />
       <section className="flex h-[80vh] p-page">
         <div className="basis-1/2 flex flex-col">

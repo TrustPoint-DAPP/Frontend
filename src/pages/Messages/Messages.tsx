@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import Navbar from "../../components/Navbar";
 import { API_BASE_URL } from "../../constants";
@@ -66,8 +67,7 @@ export default function Messages() {
       } = await axios.get(`${API_BASE_URL}/chat/`, {
         headers: { Authorization: `Bearer ${authContext.token}` },
       });
-      console.log(messages);
-      setChats(messages);
+      setChats([]);
     })();
   }, []);
 
@@ -109,16 +109,34 @@ export default function Messages() {
       <Navbar />
       <div className="w-[50vw] h-[80vh] absolute -z-[2] top-24 -left-[20vw] blur-3xl rounded-full bg-gradient-to-tr from-primary via-cyan-700 to-secondary opacity-10"></div>
       <div className="w-[40vw] h-[70vh] absolute -z-[2] bottom-5 -right-[20vw] blur-3xl rounded-full bg-gradient-to-br from-pink-500 via-blue-400 to-secondary opacity-10"></div>
-      <div className="h-screen flex p-page flex-col">
-        <div className="h-24 w-full" />
-        <div className="flex border-x border-front border-opacity-20 flex-1">
-          <ChatsPanel setSelectedId={setSelectedId} chats={chats} />
-          <Chat
-            messages={messages}
-            userType={authContext.userType as "ORG" | "CELEB"}
-          />
+      {chats.length ? (
+        <div className="h-screen flex p-page flex-col">
+          <div className="h-24 w-full" />
+          <div className="flex border-x border-front border-opacity-20 flex-1">
+            <ChatsPanel
+              setSelectedId={setSelectedId}
+              selectedId={selectedId}
+              chats={chats}
+            />
+            <Chat
+              messages={messages}
+              userType={authContext.userType as "ORG" | "CELEB"}
+              selectedUser="help"
+            />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="h-screen flex flex-col text-center justify-center items-center text-front italic text-2xl gap-y-3 font-light">
+          you have no messages <br />
+          please initiate a chat first <br />
+          <Link
+            to="/celebrities"
+            className="my-4 border-b border-primary font-extralight tracking-tighter duration-300 hover:border-opacity-0"
+          >
+            click here to see all available celebs to chat with
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,18 +1,39 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Celeb, Message, Organization } from "../../../interfaces/Database";
 import { getIPFSImageURL } from "../../../utils/getIPFSImageURL";
 
 interface ChatItemProps {
+  id: number;
   chat: Message & { celeb: Celeb; org: Organization };
   sender: Celeb | Organization;
-  onClick: Function;
+  selectedId: number;
+  setSelectedId: Function;
 }
 
 export default function ChatItem(props: ChatItemProps) {
+  const containerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+
+  useEffect(() => {
+    containerRef.current?.addEventListener("mousemove", (event): void => {
+      const { currentTarget: target } = event;
+      const rect = (target as HTMLElement).getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      containerRef.current?.style.setProperty("--mouse-x", `${x}px`);
+      containerRef.current?.style.setProperty("--mouse-y", `${y}px`);
+    });
+  }, []);
   return (
     <div
-      onClick={props.onClick as any}
-      className="flex py-6 border-b border-front border-opacity-20 cursor-pointer bg-opacity-0 bg-front duration-150 hover:bg-opacity-10"
+      onClick={() => props.setSelectedId(props.id)}
+      className={`flex relative overflow-hidden py-6 group border-b border-front border-opacity-20 cursor-pointer 
+      bg-opacity-0 bg-front duration-150 hover:bg-opacity-10 before:rounded-inherit before:content-blank before:absolute 
+      before:top-[var(--mouse-y)] before:-translate-x-1/2 before:-translate-y-1/2  before:blur-3xl before:-z-[1]
+      before:left-[var(--mouse-x)] before:aspect-square before:h-3/4 before:bg-primary before:opacity-0 before:duration-800 
+      before:pointer-events-none hover:before:opacity-50 before:ease-out ${
+        props.selectedId == props.id ? "bg-opacity-10 bg-primary" : ""
+      }`}
+      ref={containerRef}
     >
       <img
         src={getIPFSImageURL(props.sender?.imageCID as string)}
