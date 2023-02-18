@@ -67,7 +67,7 @@ export default function Messages() {
       } = await axios.get(`${API_BASE_URL}/chat/`, {
         headers: { Authorization: `Bearer ${authContext.token}` },
       });
-      setChats([]);
+      setChats(messages);
     })();
   }, []);
 

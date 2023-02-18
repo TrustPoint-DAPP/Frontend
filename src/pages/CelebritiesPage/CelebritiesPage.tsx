@@ -8,74 +8,74 @@ import { Celeb } from "../../interfaces/Database";
 import { getIPFSImageURL } from "../../utils/getIPFSImageURL";
 import CelebrityCard from "./components/CelebrityCard";
 
-const celebs = [
+const dummyCelebs = [
   {
     id: 0,
     name: "Harchar",
-    imageUrl:
+    imageCID:
       "https://blogs.airdropalert.com/wp-content/uploads/2021/12/Screenshot-2021-12-10-at-01.10.07-1001x1024.png",
   },
   {
     id: 1,
     name: "mamamia",
-    imageUrl:
+    imageCID:
       "https://nftevening.com/wp-content/uploads/2022/05/Lil-Baby-DeadFellaz-3439.png",
   },
   {
     id: 2,
     name: "Benjamin Franklin president america dollar bill",
-    imageUrl: "https://miro.medium.com/max/800/0*Lqp2aRnUlqvtU6a1.jpg",
+    imageCID: "https://miro.medium.com/max/800/0*Lqp2aRnUlqvtU6a1.jpg",
   },
   {
     id: 3,
     name: "Smile man",
-    imageUrl:
+    imageCID:
       "https://cdn.dribbble.com/users/7918221/screenshots/15687097/media/faa6b89a99102844cbc7fa685dee5ea6.jpg?compress=1&resize=400x300&vertical=top",
   },
   {
     id: 4,
     name: "pappu",
-    imageUrl:
+    imageCID:
       "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2022/09/19/2539677-rahul-gandhi5.jpg",
   },
   {
     id: 4,
     name: "yarr maar do",
-    imageUrl: "https://i.redd.it/i1n8c3eru1d81.jpg",
+    imageCID: "https://i.redd.it/i1n8c3eru1d81.jpg",
   },
   {
     id: 5,
     name: "Harchar",
-    imageUrl:
+    imageCID:
       "https://blogs.airdropalert.com/wp-content/uploads/2021/12/Screenshot-2021-12-10-at-01.10.07-1001x1024.png",
   },
   {
     id: 6,
     name: "mamamia",
-    imageUrl:
+    imageCID:
       "https://nftevening.com/wp-content/uploads/2022/05/Lil-Baby-DeadFellaz-3439.png",
   },
   {
     id: 7,
     name: "Benjamin Franklin president america dollar bill",
-    imageUrl: "https://miro.medium.com/max/800/0*Lqp2aRnUlqvtU6a1.jpg",
+    imageCID: "https://miro.medium.com/max/800/0*Lqp2aRnUlqvtU6a1.jpg",
   },
   {
     id: 8,
     name: "Smile man",
-    imageUrl:
+    imageCID:
       "https://cdn.dribbble.com/users/7918221/screenshots/15687097/media/faa6b89a99102844cbc7fa685dee5ea6.jpg?compress=1&resize=400x300&vertical=top",
   },
   {
     id: 9,
     name: "pappu",
-    imageUrl:
+    imageCID:
       "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2022/09/19/2539677-rahul-gandhi5.jpg",
   },
   {
     id: 10,
     name: "yarr maar do",
-    imageUrl: "https://i.redd.it/i1n8c3eru1d81.jpg",
+    imageCID: "https://i.redd.it/i1n8c3eru1d81.jpg",
   },
 ];
 
@@ -89,7 +89,7 @@ export default function CelebritiesPage() {
       const {
         data: { celebs: celebrities },
       } = await axios(`${API_BASE_URL}/celeb/`);
-      setCelebs(celebrities);
+      setCelebs(dummyCelebs);
     })();
   }, []);
 
@@ -107,9 +107,11 @@ export default function CelebritiesPage() {
   }
 
   return (
-    <div>
+    <div className="relative overflow-x-hidden">
       <Navbar />
       <div className="h-24"></div>
+      <div className="fixed top-[50vh] -translate-y-1/2 left-0 -translate-x-[96%] h-[150vh] blur-md bg-gradient-to-tr from-primary to-secondary aspect-square -z-10 rounded-full"></div>
+      <div className="fixed top-[50vh] -translate-y-1/2 right-0 translate-x-[96%] h-[150vh] blur-md bg-gradient-to-tr from-primary to-secondary aspect-square -z-10 rounded-full"></div>
       <div className="flex p-page flex-wrap">
         {celebs.map((celeb) => {
           return (
@@ -120,7 +122,12 @@ export default function CelebritiesPage() {
                 id={celeb.id}
                 name={celeb.name as string}
                 initializeChat={() => initializeChat(celeb.id)}
-                imageUrl={getIPFSImageURL(celeb.imageCID as string)}
+                imageUrl={
+                  celeb.imageCID?.includes("https://") ||
+                  celeb.imageCID?.includes("http://")
+                    ? celeb.imageCID
+                    : getIPFSImageURL(celeb.imageCID as string)
+                }
                 showActionButton={authContext.userType === "ORG"}
               />
             </>
