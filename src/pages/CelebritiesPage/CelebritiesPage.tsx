@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar";
 import { API_BASE_URL, IPFS_BASE_URL } from "../../constants";
 import { AuthContext } from "../../context";
 import { Celeb } from "../../interfaces/Database";
+import { getIPFSImageURL } from "../../utils/getIPFSImageURL";
 import CelebrityCard from "./components/CelebrityCard";
 
 const celebs = [
@@ -121,9 +122,7 @@ export default function CelebritiesPage() {
                 id={celeb.id}
                 name={celeb.name as string}
                 initializeChat={() => initializeChat(celeb.id)}
-                imageUrl={`${IPFS_BASE_URL}/f${(celeb.imageCID as string).slice(
-                  2
-                )}`}
+                imageUrl={getIPFSImageURL(celeb.imageCID as string)}
                 showActionButton={authContext.userType === "ORG"}
               />
             </>

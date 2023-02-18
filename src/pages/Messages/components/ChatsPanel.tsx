@@ -1,18 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../context";
+import { Celeb, Message, Organization } from "../../../interfaces/Database";
 import ChatItem from "./ChatItem";
 
 interface ChatsPanelProps {
-  chats: {
-    id: number;
-    name: string;
-    imageUrl: string;
-    lastMessageAt: string;
-    latestMessage: string;
-    unread: boolean;
-  }[];
+  chats: (Message & { celeb: Celeb; org: Organization })[];
+  setSelectedId: Function;
 }
 
 export default function ChatsPanel(props: ChatsPanelProps) {
+  const authContext = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
@@ -34,10 +31,21 @@ export default function ChatsPanel(props: ChatsPanelProps) {
       </div>
       {props.chats
         .filter((chat) =>
-          chat.name.toLowerCase().includes(searchQuery.toLowerCase())
+          (authContext.userType == "CELEB" ? chat.org.name : chat.celeb.name)
+            ?.toLowerCase()
+            .includes(searchQuery.toLowerCase())
         )
         .map((chat) => {
-          return <ChatItem key={chat.id} chat={chat} />;
+          const sender =
+            authContext.userType == "CELEB" ? chat.org : chat.celeb;
+          return (
+            <ChatItem
+              key={chat.id}
+              chat={chat}
+              sender={sender}
+              onClick={() => props.setSelectedId(sender.id)}
+            />
+          );
         })}
     </div>
   );

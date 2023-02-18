@@ -144,7 +144,7 @@ export type Message = {
   imageCID: string | null;
   videoCID: string | null;
   dealId: number | null;
-  createdAt: Date;
+  createdAt: string;
 };
 
 /**
