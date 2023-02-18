@@ -13,7 +13,9 @@ export default function Messages() {
   const authContext = useContext(AuthContext);
 
   const [isConnected, setIsConnected] = useState(false);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedSender, setSelectedSender] = useState<
+    Organization | Celeb | null
+  >(null);
   const [messages, setMessages] = useState<
     (Message & { celeb: Celeb; org: Organization })[]
   >([]);
@@ -46,15 +48,20 @@ export default function Messages() {
   useEffect(() => {
     (async () => {
       let messages = [];
-      if (selectedId) {
-        const { data } = await axios.get(`${API_BASE_URL}/chat/${selectedId}`, {
-          headers: { Authorization: `Bearer ${authContext.token}` },
-        });
+      if (selectedSender) {
+        console.log(selectedSender);
+        const { data } = await axios.get(
+          `${API_BASE_URL}/chat/${selectedSender.id}`,
+          {
+            headers: { Authorization: `Bearer ${authContext.token}` },
+          }
+        );
         messages = data.messages;
       }
+      console.log(messages);
       setMessages(messages);
     })();
-  }, [selectedId]);
+  }, [selectedSender]);
 
   const [chats, setChats] = useState<
     (Message & { celeb: Celeb; org: Organization })[]
@@ -114,14 +121,14 @@ export default function Messages() {
           <div className="h-24 w-full" />
           <div className="flex border-x border-front border-opacity-20 flex-1">
             <ChatsPanel
-              setSelectedId={setSelectedId}
-              selectedId={selectedId}
+              setSelectedSender={setSelectedSender}
+              selectedSender={selectedSender}
               chats={chats}
             />
             <Chat
               messages={messages}
               userType={authContext.userType as "ORG" | "CELEB"}
-              selectedUser="help"
+              selectedUser={selectedSender?.name || null}
             />
           </div>
         </div>

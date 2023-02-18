@@ -89,7 +89,7 @@ export default function CelebritiesPage() {
       const {
         data: { celebs: celebrities },
       } = await axios(`${API_BASE_URL}/celeb/`);
-      setCelebs(dummyCelebs);
+      setCelebs(celebrities);
     })();
   }, []);
 

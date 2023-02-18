@@ -19,7 +19,11 @@ export default function MessageBubbleProps(props: MessageBubbleProps) {
           {props.content}
         </div>
       </div>
-      <p className={`text-front text-opacity-25 text-sm font-extralight pt-2 px-2 ${props.self ? "text-right" : "text-left"}`}>
+      <p
+        className={`text-front text-opacity-25 text-sm font-extralight pt-2 px-2 ${
+          props.self ? "text-right" : "text-left"
+        }`}
+      >
         {props.datetime}
       </p>
     </div>

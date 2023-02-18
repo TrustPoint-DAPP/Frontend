@@ -3,11 +3,10 @@ import { Celeb, Message, Organization } from "../../../interfaces/Database";
 import { getIPFSImageURL } from "../../../utils/getIPFSImageURL";
 
 interface ChatItemProps {
-  id: number;
-  chat: Message & { celeb: Celeb; org: Organization };
   sender: Celeb | Organization;
-  selectedId: number;
-  setSelectedId: Function;
+  chat: Message & { celeb: Celeb; org: Organization };
+  selectedSender: Celeb | Organization | null;
+  setSelectedSender: Function;
 }
 
 export default function ChatItem(props: ChatItemProps) {
@@ -25,13 +24,15 @@ export default function ChatItem(props: ChatItemProps) {
   }, []);
   return (
     <div
-      onClick={() => props.setSelectedId(props.id)}
+      onClick={() => props.setSelectedSender(props.sender)}
       className={`flex relative overflow-hidden py-6 group border-b border-front border-opacity-20 cursor-pointer 
       bg-opacity-0 bg-front duration-150 hover:bg-opacity-10 before:rounded-inherit before:content-blank before:absolute 
       before:top-[var(--mouse-y)] before:-translate-x-1/2 before:-translate-y-1/2  before:blur-3xl before:-z-[1]
       before:left-[var(--mouse-x)] before:aspect-square before:h-3/4 before:bg-primary before:opacity-0 before:duration-800 
       before:pointer-events-none hover:before:opacity-50 before:ease-out ${
-        props.selectedId == props.id ? "bg-opacity-10 bg-primary" : ""
+        props.selectedSender?.id == props.sender.id
+          ? "bg-opacity-10 bg-primary"
+          : ""
       }`}
       ref={containerRef}
     >

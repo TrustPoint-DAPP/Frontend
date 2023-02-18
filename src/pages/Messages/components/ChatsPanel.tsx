@@ -5,8 +5,8 @@ import ChatItem from "./ChatItem";
 
 interface ChatsPanelProps {
   chats: (Message & { celeb: Celeb; org: Organization })[];
-  selectedId: number | null;
-  setSelectedId: Function;
+  selectedSender: Celeb | Organization | null;
+  setSelectedSender: Function;
 }
 
 export default function ChatsPanel(props: ChatsPanelProps) {
@@ -42,11 +42,10 @@ export default function ChatsPanel(props: ChatsPanelProps) {
           return (
             <ChatItem
               key={chat.id}
-              id={sender.id}
-              chat={chat}
               sender={sender}
-              selectedId={props.selectedId || -1}
-              setSelectedId={props.setSelectedId}
+              chat={chat}
+              selectedSender={props.selectedSender || null}
+              setSelectedSender={props.setSelectedSender}
             />
           );
         })}

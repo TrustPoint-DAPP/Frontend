@@ -57,6 +57,9 @@ export default function Chat(props: ChatProps) {
   //   ].slice(0, 4)
   // );
 
+  console.log(1, props.messages[0]?.sender.toLowerCase());
+  console.log(2, props.userType.toLowerCase());
+
   return (
     <div className="flex-1 h-full flex flex-col border-front border-l border-opacity-20">
       <div className="py-2  text-lg font-medium tracking-wider italic text-center bg-foreground text-front">
@@ -67,7 +70,7 @@ export default function Chat(props: ChatProps) {
           <MessageBubbleProps
             content={message.text as string}
             datetime={new Date(message.createdAt).toLocaleString()}
-            self={message.sender === props.userType}
+            self={message.sender.toLowerCase() === props.userType.toLowerCase()}
             key={message.id}
           />
         ))}
