@@ -145,7 +145,6 @@ export default function Messages() {
               messages={messages}
               selectedSender={selectedSender}
               userType={authContext.userType as "ORG" | "CELEB"}
-              selectedUser={selectedSender?.name || null}
             />
           </div>
         </div>

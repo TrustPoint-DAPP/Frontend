@@ -144,7 +144,7 @@ export type Message = {
   imageCID: string | null;
   videoCID: string | null;
   dealId: number | null;
-  createdAt: string;
+  createdAt: Date;
 };
 
 /**
@@ -178,7 +178,7 @@ export const MessageType: {
 export type MessageType = typeof MessageType[keyof typeof MessageType];
 
 export const SenderType: {
-  ORGANIZATION: "ORGANIZATION";
+  ORG: "ORG";
   CELEB: "CELEB";
 };
 
