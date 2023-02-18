@@ -37,6 +37,7 @@ function DealCreationModal(props: DealCreationModalProps) {
         <form
           className="flex flex-col gap-y-8 px-14"
           onSubmit={(event) => {
+            event.preventDefault();
             const data = new FormData(event.target as HTMLFormElement);
             props.actionButton(data);
           }}
