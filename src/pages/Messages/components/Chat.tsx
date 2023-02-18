@@ -86,8 +86,7 @@ export default function Chat(props: ChatProps) {
         <div className="h-[75vh] flex flex-col p-3 gap-y-6 overflow-y-scroll scrollbar-primary">
           {props.messages.map((message) => (
             <MessageBubble
-              content={message.text as string}
-              datetime={new Date(message.createdAt).toLocaleString()}
+              message={message}
               self={
                 message.sender.toLowerCase() === props.userType.toLowerCase()
               }
@@ -106,19 +105,21 @@ export default function Chat(props: ChatProps) {
           }}
           className="flex p-3 gap-x-2 backdrop-blur-lg border-t border-front border-opacity-30"
         >
-          <button
-            className="btn-2 px-4 py-2"
-            onClick={() => {
-              setShowDealCreationModal(true);
-            }}
-          >
-            <img
-              src="/icons/doc.svg"
-              alt="deal icon"
-              className="brightness-0 invert aspect-square w-5 mr-2"
-            />
-            Deal
-          </button>
+          {authContext.userType === "ORG" && (
+            <button
+              className={`btn-2 px-4 py-2`}
+              onClick={() => {
+                setShowDealCreationModal(true);
+              }}
+            >
+              <img
+                src="/icons/doc.svg"
+                alt="deal icon"
+                className="brightness-0 invert aspect-square w-5 mr-2"
+              />
+              Deal
+            </button>
+          )}
           <input
             type="text"
             accept="image/*"

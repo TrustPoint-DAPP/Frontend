@@ -1,11 +1,12 @@
 import { ethers } from "ethers";
-import { Deal, Nft, NFTMetadata } from "../../../interfaces/Database";
+import { Deal, Message, Nft, NFTMetadata } from "../../../interfaces/Database";
 import { getIPFSImageURL } from "../../../utils/getIPFSImageURL";
 
 interface MessageBubbleProps {
-  content: string;
   self: boolean;
-  datetime: string;
+  message: Message & {
+    deal?: Deal & { nfts: (Nft & { metadata: NFTMetadata })[] };
+  };
 }
 
 export default function MessageBubble(props: MessageBubbleProps) {
@@ -14,8 +15,29 @@ export default function MessageBubble(props: MessageBubbleProps) {
       <div className={`w-full flex justify-between`}>
         <div className={props.self ? "flex" : "hidden"} />
         {(() => {
-          //switch
-          return <></>;
+          switch (props.message.type) {
+            case "TEXT":
+              return (
+                <TextMessageBubble
+                  content={props.message.text as string}
+                  self={props.self}
+                />
+              );
+            case "DEAL":
+              return (
+                <DealBubble
+                  deal={
+                    props.message.deal as Deal & {
+                      nfts: (Nft & { metadata: NFTMetadata })[];
+                    }
+                  }
+                />
+              );
+            case "IMAGE":
+              return <></>;
+            case "VIDEO":
+              return <></>;
+          }
         })()}
       </div>
       <p
@@ -23,7 +45,7 @@ export default function MessageBubble(props: MessageBubbleProps) {
           props.self ? "text-right" : "text-left"
         }`}
       >
-        {props.datetime}
+        {new Date(props.message.createdAt).toLocaleString()}
       </p>
     </div>
   );

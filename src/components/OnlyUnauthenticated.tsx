@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../context";
 import { useNavigate } from "react-router-dom";
 
@@ -10,10 +10,13 @@ export default function OnlyUnauthenticated({
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
 
-  if (authContext.token) {
-    navigate("/dashboard");
-    return <></>;
-  }
+  useEffect(() => {
+    if (authContext.token) {
+      navigate("/dashboard");
+    }
+  }, [authContext.token]);
+
+  if (authContext.token) return <></>;
 
   return children;
 }
