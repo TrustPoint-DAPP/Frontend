@@ -7,10 +7,6 @@ interface RegisterModalProps {
 }
 
 function ImageUploadModal(props: RegisterModalProps) {
-  async function connectMetamaskasync() {
-    alert("YASH AB ISKO LIKHEGA");
-  }
-
   const imageUploadRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const [imagePreview, setImagePreview] = useState(
     "/images/default-profile.jpg"
@@ -47,7 +43,7 @@ function ImageUploadModal(props: RegisterModalProps) {
           }}
         >
           <div className="border-b border-front py-4 w-full text-2xl pr-[10vw]">
-            Uplaod a profile picture
+            Upload a profile picture
           </div>
           <img
             src={imagePreview}

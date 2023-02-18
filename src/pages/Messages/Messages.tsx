@@ -35,7 +35,21 @@ export default function Messages() {
     });
 
     socket.on("message", (message) => {
-      console.log(message);
+      const messageObj = JSON.parse(message);
+      const newChats = chats.filter(
+        (chat) =>
+          chat.celebId != messageObj.celebId || chat.orgId != messageObj.orgId
+      );
+      newChats.unshift(messageObj);
+      setChats(newChats);
+      if (
+        selectedSender &&
+        (authContext.userType == "CELEB" ? messageObj.org : messageObj.celeb)
+          .id == selectedSender.id
+      ) {
+        messages.push(messageObj);
+        setMessages(messages);
+      }
     });
 
     return () => {
@@ -78,8 +92,9 @@ export default function Messages() {
     })();
   }, []);
 
-  function sendTextMessage(message: string) {
-    socket?.emit("new_message", message);
+  function sendTextMessage(to: number, message: string) {
+    console.log(to);
+    socket?.emit("send_message", JSON.stringify({ to, text: message }));
   }
 
   // const dummy = {
@@ -126,7 +141,9 @@ export default function Messages() {
               chats={chats}
             />
             <Chat
+              sendTextMessage={sendTextMessage}
               messages={messages}
+              selectedSender={selectedSender}
               userType={authContext.userType as "ORG" | "CELEB"}
               selectedUser={selectedSender?.name || null}
             />

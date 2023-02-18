@@ -20,6 +20,14 @@ input {
   @apply bg-background text-front border border-front;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
 html::-webkit-scrollbar {
   @apply w-[5px];
 }
