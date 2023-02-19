@@ -116,6 +116,7 @@ export default function Chat(props: ChatProps) {
 
   async function acceptDeal(dealId: number, celebRoyaltyReceiver: string) {
     if (!props.dealContract) return;
+    console.log(dealId);
     const tx = await props.dealContract.acceptDeal(
       dealId.toString(),
       celebRoyaltyReceiver

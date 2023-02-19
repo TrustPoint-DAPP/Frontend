@@ -113,11 +113,14 @@ function DealBubble({
       ) : deal.cancelled ? (
         <>Deal Cancelled</>
       ) : self ? (
-        <button className="btn-1 py-2" onClick={cancelDeal as any}>
+        <button className="btn-1 py-2" onClick={() => cancelDeal(deal.id)}>
           CANCEL
         </button>
       ) : (
-        <button className="btn-1 py-2" onClick={acceptDeal as any}>
+        <button
+          className="btn-1 py-2"
+          onClick={() => acceptDeal(deal.id, deal.celebAddress)}
+        >
           ACCEPT
         </button>
       )}

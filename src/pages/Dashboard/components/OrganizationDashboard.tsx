@@ -1,12 +1,43 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import Footer from "../../../components/Footer";
 import Navbar from "../../../components/Navbar";
+import { API_BASE_URL } from "../../../constants";
+import { AuthContext } from "../../../context";
+import {
+  Celeb,
+  Deal,
+  NFTMetadata,
+  Organization,
+  Nft,
+} from "../../../interfaces/Database";
 import DealsTab from "./DealsTab";
 import NavigationTabs from "./NavigationTabs";
 import NftsTab from "./NftsTab";
 
 export default function UserDashboard() {
+  const authContext = useContext(AuthContext);
   const [currentTab, setCurrentTab] = useState("Pending Deals");
+  const [deals, setDeals] = useState<
+    (Deal & {
+      nfts: (Nft & { metadata: NFTMetadata })[];
+      org: Organization;
+      celeb: Celeb;
+    })[]
+  >([]);
+
+  useEffect(() => {
+    if (!authContext.token) return;
+    (async () => {
+      const {
+        data: { deals: deals_ },
+      } = await axios.get(`${API_BASE_URL}/deal`, {
+        headers: { Authorization: `Bearer ${authContext.token}` },
+      });
+      setDeals(deals_);
+    })();
+  }, [authContext.token]);
+
   const tabs = [
     "Pending Deals",
     "Rejected Deals",
@@ -144,21 +175,30 @@ export default function UserDashboard() {
         {(() => {
           switch (currentTab) {
             case tabs[0]:
-              return <DealsTab deals={dummyDeals.slice(0, 2)} />;
-              break;
+              return (
+                <DealsTab
+                  deals={deals.filter((deal) => !deal.done && !deal.cancelled)}
+                  userType={authContext.userType || "ORG"}
+                />
+              );
             case tabs[1]:
-              return <DealsTab deals={dummyDeals.slice(2, 5)} />;
-              break;
+              return (
+                <DealsTab
+                  deals={deals.filter((deal) => deal.cancelled)}
+                  userType={authContext.userType || "ORG"}
+                />
+              );
             case tabs[2]:
-              return <DealsTab deals={dummyDeals.slice(0, 1)} />;
-              break;
+              return (
+                <DealsTab
+                  deals={deals.filter((deal) => deal.done)}
+                  userType={authContext.userType || "ORG"}
+                />
+              );
             case tabs[3]:
               return <NftsTab nfts={dummyNfts} />;
-              break;
             case tabs[4]:
-              return <DealsTab deals={dummyDeals.slice(0, 5)} />;
-              break;
-
+              return <NftsTab nfts={dummyNfts} />;
             default:
               break;
           }
