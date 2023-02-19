@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 import { Deal, Message, Nft, NFTMetadata } from "../../../interfaces/Database";
-import { getIPFSImageURL } from "../../../utils/getIPFSImageURL";
 
 interface MessageBubbleProps {
   self: boolean;

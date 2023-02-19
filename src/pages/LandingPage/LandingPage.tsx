@@ -16,9 +16,9 @@ export default function LandingPage() {
     },
     {
       image: "/images/brand-promotional-illustration-2.png",
-      title: "Unbeatable Security",
+      title: "Unbeatable Privacy",
       description:
-        "In no way can your deals be interacted with by someone other than you and you only. Security is our utmost concern and it should be yours as well. We've considered all possibilities and made a developed marketplace for all parties.",
+        "In no way can your deals be interacted with by someone other than you and you only. Security is our utmost concern and it should be yours as well. We've considered all possibilities and developed a  marketplace for all parties.",
       link: "https://blockbuild.africa/the-concept-of-blockchain-in-zero-trust/",
     },
   ];
@@ -34,16 +34,16 @@ export default function LandingPage() {
         />
         <div className="hero-left basis-1/2 flex flex-col justify-center gap-y-8">
           <div className="bg-front bg-opacity-[0.08] w-max py-2 px-5 text-xl font-medium text-front rounded-md text-opacity-80">
-            THE FIRST GAME HOUSE
+            {"NFT Collaborations Made Easy".toLocaleUpperCase()}
           </div>
           <h1 className="text-7xl font-semibold">
-            The Intuitive Deal mediator
+            Effortless NFT Collaborations
           </h1>
           <p className="text-xl text-front text-opacity-80">
-            Trustpoint is a high-security Web 3 Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Est id neque molestiae cumque quia nam
-            assumenda voluptates tenetur sunt beatae! Nihil magni explicabo quas
-            blanditiis voluptatum quod quos accusamus obcaecati praesentium!
+            TrustPoint's platform streamlines the process of creating NFT
+            collaborations between game companies and celebrities. With an
+            effortless approach, TrustPoint empowers game companies to bring
+            unique NFT experiences to their users
           </p>
           <div className="flex items-center gap-x-10">
             <Link className="btn-2 px-4 py-2" to="/auth">
@@ -55,16 +55,16 @@ export default function LandingPage() {
       </section>
       <section className="p-page relative">
         <h1 className="text-5xl font-semibold">
-          Your Deals on{" "}
+          Your NFT Deals on{" "}
           <span className="text-gradient-to-r from-primary to-secondary">
             The Web3
           </span>
         </h1>
         <p className="w-7/12 py-5 opacity-70 text-lg font-light">
-          How a deal is made with web3 and the experiences you get will
-          determine your impact. Utility, ease of trade, and negotiation are
-          key. Trustpoint is built with a set of features that make this
-          possible.
+          TrustPoint makes it easy for game companies and celebrities to
+          collaborate and create unique NFT experiences for users on Web3. With
+          TrustPoint, you can sign deals quickly and easily, bringing your NFT
+          collaborations to life.
         </p>
         <div className="flex flex-wrap justify-between py-16">
           {promotionCards.map((card) => {
