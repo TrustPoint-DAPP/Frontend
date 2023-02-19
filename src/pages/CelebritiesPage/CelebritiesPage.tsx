@@ -110,8 +110,8 @@ export default function CelebritiesPage() {
     <div className="relative overflow-x-hidden">
       <Navbar />
       <div className="h-24"></div>
-      <div className="fixed top-[50vh] -translate-y-1/2 left-0 -translate-x-[96%] h-[150vh] blur-md bg-gradient-to-tr from-primary to-secondary aspect-square -z-10 rounded-full"></div>
-      <div className="fixed top-[50vh] -translate-y-1/2 right-0 translate-x-[96%] h-[150vh] blur-md bg-gradient-to-tr from-primary to-secondary aspect-square -z-10 rounded-full"></div>
+      <div className="fixed top-[50vh] -translate-y-1/2 left-0 -translate-x-[99.9%] h-[150vh] blur-[5rem] saturate-150 opacity-70 bg-gradient-to-tr from-primary to-secondary aspect-square -z-10 rounded-full"></div>
+      <div className="fixed top-[50vh] -translate-y-1/2 right-0 translate-x-[99.9%] h-[150vh] blur-[5rem] saturate-150 opacity-70 bg-gradient-to-tr from-primary to-secondary aspect-square -z-10 rounded-full"></div>
       <div className="flex p-page flex-wrap">
         {celebs.map((celeb) => {
           return (
@@ -142,10 +142,10 @@ function CelebritiesPageBanner() {
   return (
     <div className="w-2/4 flex flex-col justify-evenly items-center pb-8">
       <h1 className="text-[44px] font-semibold tracking-wide">
-        Eat, Buy & Sell Celebs
+        Collab with these Celebs
       </h1>
       <p className="font-light tracking-wide text-front text-opacity-70">
-        Discover the most recognizer celebs
+        Discover the most popular and recognized celebs
       </p>
       <button className="bg-gradient-to-r from-teal-700 to-cyan-800 px-10 py-4 rounded-full duration-300 hover:from-primary">
         View Market
