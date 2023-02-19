@@ -7,6 +7,8 @@ interface MessageBubbleProps {
   message: Message & {
     deal?: Deal & { nfts: (Nft & { metadata: NFTMetadata })[] };
   };
+  acceptDeal: Function;
+  cancelDeal: Function;
 }
 
 export default function MessageBubble(props: MessageBubbleProps) {
@@ -31,6 +33,9 @@ export default function MessageBubble(props: MessageBubbleProps) {
                       nfts: (Nft & { metadata: NFTMetadata })[];
                     }
                   }
+                  self={props.self}
+                  acceptDeal={props.acceptDeal}
+                  cancelDeal={props.cancelDeal}
                 />
               );
             case "IMAGE":
@@ -70,9 +75,15 @@ function TextMessageBubble({
 }
 
 function DealBubble({
+  self,
   deal,
+  acceptDeal,
+  cancelDeal,
 }: {
+  self: boolean;
   deal: Deal & { nfts: (Nft & { metadata: NFTMetadata })[] };
+  acceptDeal: Function;
+  cancelDeal: Function;
 }) {
   return (
     <div className="w-[50%] overflow-hidden rounded-2xl flex flex-col gap-y-3 bg-foreground">
@@ -98,7 +109,19 @@ function DealBubble({
           {deal.nfts[0].royaltyBasisPoints / 100} %
         </span>{" "}
       </p>
-      <button className="btn-1 py-2">ACCEPT</button>
+      {deal.done ? (
+        <>Deal Done</>
+      ) : deal.cancelled ? (
+        <>Deal Cancelled</>
+      ) : self ? (
+        <button className="btn-1 py-2" onClick={cancelDeal as any}>
+          CANCEL
+        </button>
+      ) : (
+        <button className="btn-1 py-2" onClick={acceptDeal as any}>
+          ACCEPT
+        </button>
+      )}
     </div>
   );
 }

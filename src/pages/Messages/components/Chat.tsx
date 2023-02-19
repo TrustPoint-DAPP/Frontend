@@ -1,8 +1,10 @@
 import axios from "axios";
+import { ethers } from "ethers";
 import React, { useContext, useRef, useState } from "react";
 import { API_BASE_URL } from "../../../constants";
 import { AuthContext } from "../../../context";
 import { Celeb, Message, Organization } from "../../../interfaces/Database";
+import { DealController } from "../../../typechain-types";
 import DealCreationModal from "./DealCreationModal";
 import MessageBubble from "./MessageBubble";
 
@@ -11,6 +13,7 @@ interface ChatProps {
   userType: "ORG" | "CELEB";
   selectedSender: Organization | Celeb | null;
   sendTextMessage: Function;
+  dealContract: DealController | null;
 }
 
 export default function Chat(props: ChatProps) {
@@ -69,12 +72,61 @@ export default function Chat(props: ChatProps) {
 
   async function createDeal(data: FormData) {
     if (!props.selectedSender) return;
+    if (!props.dealContract) return;
+
+    const celebRoyalty = (
+      (Number(data.get("celebRoyalty")?.toString()) * 100) |
+      0
+    ).toString();
+    const orgRoyalty = (
+      (Number(data.get("orgRoyalty")?.toString()) * 100) |
+      0
+    ).toString();
+    const oneOffFees = ethers.utils
+      .parseEther(data.get("oneOffFees")?.toString() as string)
+      .toString();
+
     data.append("celebId", props.selectedSender.id.toString());
+    data.set("celebRoyalty", celebRoyalty);
+    data.set("orgRoyalty", orgRoyalty);
+    data.set("oneOffFees", oneOffFees);
+
     const {
       data: { signature, nonce, metadataCID },
     } = await axios.post(`${API_BASE_URL}/deal/`, data, {
       headers: { Authorization: `Bearer ${authContext.token}` },
     });
+
+    const tx = await props.dealContract.createDeal(
+      (authContext.org as Organization).id.toString(),
+      oneOffFees,
+      celebRoyalty,
+      orgRoyalty,
+      (props.selectedSender as Celeb).address,
+      (authContext.org as Organization).admin,
+      metadataCID,
+      nonce,
+      signature,
+      { value: oneOffFees, gasLimit: 800000 }
+    );
+    await tx.wait(1);
+
+    setShowDealCreationModal(false);
+  }
+
+  async function acceptDeal(dealId: number, celebRoyaltyReceiver: string) {
+    if (!props.dealContract) return;
+    const tx = await props.dealContract.acceptDeal(
+      dealId.toString(),
+      celebRoyaltyReceiver
+    );
+    await tx.wait(1);
+  }
+
+  async function cancelDeal(dealId: number) {
+    if (!props.dealContract) return;
+    const tx = await props.dealContract.cancelDeal(dealId.toString());
+    await tx.wait(1);
   }
 
   return (
@@ -91,6 +143,8 @@ export default function Chat(props: ChatProps) {
                 message.sender.toLowerCase() === props.userType.toLowerCase()
               }
               key={message.id}
+              acceptDeal={acceptDeal}
+              cancelDeal={cancelDeal}
             />
           ))}
         </div>
@@ -108,6 +162,7 @@ export default function Chat(props: ChatProps) {
           {authContext.userType === "ORG" && (
             <button
               className={`btn-2 px-4 py-2`}
+              type="button"
               onClick={() => {
                 setShowDealCreationModal(true);
               }}

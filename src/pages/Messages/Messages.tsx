@@ -1,17 +1,19 @@
 import axios from "axios";
+import { ethers } from "ethers";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import Navbar from "../../components/Navbar";
-import { API_BASE_URL } from "../../constants";
+import { API_BASE_URL, DEAL_CONTRACT_ADDRESS } from "../../constants";
 import { AuthContext } from "../../context";
 import { Celeb, Message, Organization } from "../../interfaces/Database";
+import { DealController } from "../../typechain-types";
 import Chat from "./components/Chat";
 import ChatsPanel from "./components/ChatsPanel";
+import DEAL_CONTRACT_ABI from "../../abi/DealController.json";
 
 export default function Messages() {
   const authContext = useContext(AuthContext);
-
   const [isConnected, setIsConnected] = useState(false);
   const [selectedSender, setSelectedSender] = useState<
     Organization | Celeb | null
@@ -20,44 +22,74 @@ export default function Messages() {
     (Message & { celeb: Celeb; org: Organization })[]
   >([]);
   const [socket, setSocket] = useState<Socket>();
+  const [dealContract, setDealContract] = useState<DealController | null>(null);
+  const [chats, setChats] = useState<
+    (Message & { celeb: Celeb; org: Organization })[]
+  >([]);
 
   useEffect(() => {
+    if (!authContext.signer) return;
+    const _dealContract = new ethers.Contract(
+      DEAL_CONTRACT_ADDRESS,
+      DEAL_CONTRACT_ABI,
+      authContext.signer
+    ) as DealController;
+    setDealContract(_dealContract);
+  }, [authContext.signer]);
+
+  useEffect(function () {
+    (async () => {
+      const {
+        data: { messages },
+      } = await axios.get(`${API_BASE_URL}/chat/`, {
+        headers: { Authorization: `Bearer ${authContext.token}` },
+      });
+      setChats(messages);
+    })();
     const socket = io(API_BASE_URL, {
       extraHeaders: { token: authContext.token as string },
     });
     setSocket(socket);
-    socket.on("connect", () => {
-      setIsConnected(true);
-    });
-
-    socket.on("disconnect", () => {
-      setIsConnected(false);
-    });
-
-    socket.on("message", (message) => {
-      const messageObj = JSON.parse(message);
-      const newChats = chats.filter(
-        (chat) =>
-          chat.celebId != messageObj.celebId || chat.orgId != messageObj.orgId
-      );
-      newChats.unshift(messageObj);
-      setChats(newChats);
-      if (
-        selectedSender &&
-        (authContext.userType == "CELEB" ? messageObj.org : messageObj.celeb)
-          .id == selectedSender.id
-      ) {
-        messages.push(messageObj);
-        setMessages(messages);
-      }
-    });
-
-    return () => {
-      socket.off("connect");
-      socket.off("disconnect");
-      socket.off("message");
-    };
   }, []);
+
+  useEffect(
+    function () {
+      if (!socket) return;
+      socket.removeAllListeners();
+      socket.on("connect", function () {
+        setIsConnected(true);
+      });
+
+      socket.on("disconnect", function () {
+        setIsConnected(false);
+      });
+
+      socket.on("message", function (message) {
+        const messageObj = JSON.parse(message);
+        const newChats = chats.filter(
+          (chat) =>
+            chat.celebId != messageObj.celebId || chat.orgId != messageObj.orgId
+        );
+        if (
+          selectedSender &&
+          (authContext.userType == "CELEB" ? messageObj.org : messageObj.celeb)
+            .id == selectedSender.id
+        ) {
+          messages.push(messageObj);
+          setMessages(messages);
+        }
+        newChats.unshift(messageObj);
+        setChats(newChats);
+      });
+
+      return () => {
+        socket.off("connect");
+        socket.off("disconnect");
+        socket.off("message");
+      };
+    },
+    [socket, selectedSender, authContext.userType]
+  );
 
   useEffect(() => {
     (async () => {
@@ -77,54 +109,10 @@ export default function Messages() {
     })();
   }, [selectedSender]);
 
-  const [chats, setChats] = useState<
-    (Message & { celeb: Celeb; org: Organization })[]
-  >([]);
-
-  useEffect(() => {
-    (async () => {
-      const {
-        data: { messages },
-      } = await axios.get(`${API_BASE_URL}/chat/`, {
-        headers: { Authorization: `Bearer ${authContext.token}` },
-      });
-      setChats(messages);
-    })();
-  }, []);
-
   function sendTextMessage(to: number, message: string) {
     console.log(to);
     socket?.emit("send_message", JSON.stringify({ to, text: message }));
   }
-
-  // const dummy = {
-  //   id: 0,
-  //   name: "Aaroh Puppu",
-  //   imageUrl:
-  //     "https://icon-library.com/images/default-user-icon/default-user-icon-20.jpg",
-  //   lastMessageAt: "15/02/2023",
-  //   latestMessage: "Bhai khana de de aaj to bhi",
-  //   unread: false,
-  // },
-  // {
-  //   id: 1,
-  //   name: "Jain Sanghatan",
-  //   imageUrl:
-  //     "https://pyxis.nymag.com/v1/imgs/654/1f1/08de774c11d89cb3f4ecf600a33e9c8283-24-keanu-reeves.rsquare.w700.jpg",
-  //   lastMessageAt: "16/02/2023",
-  //   latestMessage:
-  //     "Kapde ki NFT se hume dur rakho, sin sin sin, fuck jebus, YAAYY We Rule fuck",
-  //   unread: true,
-  // },
-  // {
-  //   id: 2,
-  //   name: "Churdhuru",
-  //   imageUrl:
-  //     "https://img.freepik.com/premium-vector/illustration-rajasthani-man-with-greet-hand_194552-833.jpg?w=2000",
-  //   lastMessageAt: "14/02/2023",
-  //   latestMessage: "Pake Ped pe Paka Papita, Paka Ped ya Paka Papita?",
-  //   unread: true,
-  // },
 
   return (
     <div className="overflow-hidden relative">
@@ -144,6 +132,7 @@ export default function Messages() {
               sendTextMessage={sendTextMessage}
               messages={messages}
               selectedSender={selectedSender}
+              dealContract={dealContract}
               userType={authContext.userType as "ORG" | "CELEB"}
             />
           </div>

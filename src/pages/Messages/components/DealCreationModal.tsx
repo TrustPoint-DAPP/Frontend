@@ -70,7 +70,6 @@ function DealCreationModal(props: DealCreationModalProps) {
               min={0}
               step={0.01}
               max={100}
-              value={0}
               className="bg-transparent w-full resize-none border border-front border-opacity-80 rounded-full py-2 px-4 placeholder:text-front placeholder:text-opacity-60"
             />
           </div>
@@ -85,7 +84,6 @@ function DealCreationModal(props: DealCreationModalProps) {
               min={0}
               step={0.01}
               max={100}
-              value={0}
               className="bg-transparent w-full resize-none border border-front border-opacity-80 rounded-full py-2 px-4 placeholder:text-front placeholder:text-opacity-60"
             />
           </div>
@@ -99,7 +97,6 @@ function DealCreationModal(props: DealCreationModalProps) {
               type="number"
               min={0}
               step={0.01}
-              value={0}
               className="bg-transparent w-full resize-none border border-front border-opacity-80 rounded-full py-2 px-4 placeholder:text-front placeholder:text-opacity-60"
             />
           </div>
