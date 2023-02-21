@@ -1,13 +1,20 @@
 import React from "react";
+import {
+  Celeb,
+  Deal,
+  Nft,
+  NFTMetadata,
+  Organization,
+} from "../../../interfaces/Database";
 import DealCard from "./DealCard";
 
 interface DealsTabProps {
-  deals: {
-    counterParty: string;
-    amount: Number;
-    royalty: Number;
-    imageUrl: string;
-  }[];
+  deals: (Deal & {
+    nfts: (Nft & { metadata: NFTMetadata })[];
+    org: Organization;
+    celeb: Celeb;
+  })[];
+  userType: "ORG" | "CELEB";
 }
 
 function DealsTab(props: DealsTabProps) {
@@ -17,13 +24,7 @@ function DealsTab(props: DealsTabProps) {
         <div className="h-16"></div>
       </div>
       {props.deals.map((deal) => (
-        <DealCard
-          counterParty={deal.counterParty}
-          amount={deal.amount}
-          royalty={deal.royalty}
-          imageUrl={deal.imageUrl}
-          key={props.deals.indexOf(deal)}
-        />
+        <DealCard deal={deal} userType={props.userType} key={deal.id} />
       ))}
     </div>
   );
