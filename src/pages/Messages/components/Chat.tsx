@@ -107,7 +107,10 @@ export default function Chat(props: ChatProps) {
       metadataCID,
       nonce,
       signature,
-      { value: oneOffFees, gasLimit: 800000 }
+      {
+        value: oneOffFees,
+        gasLimit: 3_500_000,
+      }
     );
     await tx.wait(1);
 
@@ -118,14 +121,19 @@ export default function Chat(props: ChatProps) {
     if (!props.dealContract) return;
     const tx = await props.dealContract.acceptDeal(
       dealId.toString(),
-      celebRoyaltyReceiver
+      celebRoyaltyReceiver,
+      {
+        gasLimit: 1_500_000,
+      }
     );
     await tx.wait(1);
   }
 
   async function cancelDeal(dealId: number) {
     if (!props.dealContract) return;
-    const tx = await props.dealContract.cancelDeal(dealId.toString());
+    const tx = await props.dealContract.cancelDeal(dealId.toString(), {
+      gasLimit: 200_000,
+    });
     await tx.wait(1);
   }
 

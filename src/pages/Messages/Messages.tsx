@@ -26,6 +26,7 @@ export default function Messages() {
   const [chats, setChats] = useState<
     (Message & { celeb: Celeb; org: Organization })[]
   >([]);
+  const [newMessage, setNewMessage] = useState<string>();
 
   useEffect(() => {
     if (!authContext.signer) return;
@@ -64,23 +65,7 @@ export default function Messages() {
         setIsConnected(false);
       });
 
-      socket.on("message", function (message) {
-        const messageObj = JSON.parse(message);
-        const newChats = chats.filter(
-          (chat) =>
-            chat.celebId != messageObj.celebId || chat.orgId != messageObj.orgId
-        );
-        if (
-          selectedSender &&
-          (authContext.userType == "CELEB" ? messageObj.org : messageObj.celeb)
-            .id == selectedSender.id
-        ) {
-          messages.push(messageObj);
-          setMessages(messages);
-        }
-        newChats.unshift(messageObj);
-        setChats(newChats);
-      });
+      socket.on("message", setNewMessage);
 
       return () => {
         socket.off("connect");
@@ -90,6 +75,24 @@ export default function Messages() {
     },
     [socket, selectedSender, authContext.userType]
   );
+
+  useEffect(() => {
+    if (!newMessage) return;
+    const messageObj = JSON.parse(newMessage);
+    const newChats = chats.filter(
+      (chat) =>
+        chat.celebId != messageObj.celebId || chat.orgId != messageObj.orgId
+    );
+    if (
+      selectedSender &&
+      (authContext.userType == "CELEB" ? messageObj.org : messageObj.celeb)
+        .id == selectedSender.id
+    ) {
+      setMessages([...messages, messageObj]);
+    }
+    newChats.unshift(messageObj);
+    setChats(newChats);
+  }, [newMessage]);
 
   useEffect(() => {
     (async () => {
