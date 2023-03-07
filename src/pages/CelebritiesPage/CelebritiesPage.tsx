@@ -86,10 +86,10 @@ export default function CelebritiesPage() {
 
   useEffect(() => {
     (async () => {
-      const {
-        data: { celebs: celebrities },
-      } = await axios(`${API_BASE_URL}/celeb/`);
-      setCelebs(celebrities);
+      // const {
+      //   data: { celebs: celebrities },
+      // } = await axios(`${API_BASE_URL}/celeb/`);
+      setCelebs(dummyCelebs);
     })();
   }, []);
 

@@ -16,9 +16,9 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const navLinks = [
-    { name: "Help", to: "/help" },
-    { name: "Messages", to: "/messages" },
     { name: "Celebs", to: "/celebrities" },
+    { name: "Help", to: "/help" },
+    { name: "About", to: "/about" },
   ];
 
   async function connect() {

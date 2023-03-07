@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Footer from "../../../components/Footer";
 import Navbar from "../../../components/Navbar";
 import DealsTab from "./DealsTab";
@@ -24,14 +25,14 @@ export default function UserDashboard() {
         "https://i.pinimg.com/736x/31/54/be/3154be740af7c92e7e6137e23cf95880.jpg",
     },
     {
-      counterParty: "Papa ki Dukan",
+      counterParty: "SuperBowls",
       amount: 20,
       royalty: 60,
       imageUrl:
         "https://elitemen.com.au/wp-content/uploads/2021/08/Visa-NFT-main.jpg",
     },
     {
-      counterParty: "Chchodry ki tapri",
+      counterParty: "Clash Royal",
       amount: 80,
       royalty: 5,
       imageUrl:
@@ -134,7 +135,9 @@ export default function UserDashboard() {
   return (
     <>
       <Navbar />
-      {/* <div className="h-10"></div> */}
+      {/* <Link to="/messages">
+        <img src="/icons/message.svg" alt="message icon" />
+      </Link> */}
       <div className="p-page h-screen flex">
         <div className="absolute top-[25%] -left-[10%] w-[60vw] h-[50vh] rounded-full rotate-45 bg-gradient-to-r -z-[1] pointer-events-none from-primary to-secondary opacity-10 blur-[6rem]"></div>
         <div className="absolute top-[25%] -left-[10%] w-[60vw] h-[50vh] rounded-full -rotate-45 bg-gradient-to-r -z-[1] pointer-events-none from-blue-600 to-pink-500 opacity-10 blur-[6rem]"></div>
