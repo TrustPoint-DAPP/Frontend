@@ -1,5 +1,4 @@
-export const CHAIN_ID = 80001;
-export const API_BASE_URL = "http://localhost:8000";
-export const IPFS_BASE_URL = "https://gateway.lighthouse.storage/ipfs";
-export const DEAL_CONTRACT_ADDRESS =
-  "0x8263797d1F4487E2bBec1769D7bf95B276b4bae4";
+export const CHAIN_ID = import.meta.env.VITE_CHAIN_ID;
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+export const IPFS_BASE_URL = import.meta.env.VITE_IPFS_BASE_URL;
+export const DEAL_CONTRACT_ADDRESS = import.meta.env.VITE_DEAL_CONTRACT_ADDRESS;

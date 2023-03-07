@@ -106,7 +106,6 @@ function DealCreationModal(props: DealCreationModalProps) {
               src="/icons/add.svg"
               alt="metamask-icon"
               className="aspect-square w-[2ch] brightness-0 duration-inherit group-hover:invert"
-              onClick={() => props.actionButton()}
             />{" "}
             CREATE{" "}
           </button>

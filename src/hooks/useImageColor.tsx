@@ -10,12 +10,12 @@ const DEFAULT_SETTINGS = {
   format: FORMATS.hex,
 };
 
-export default function useImageColor(src : string, _settings = {}) {
+export default function useImageColor(src: string, _settings = {}) {
   const settings = { ...DEFAULT_SETTINGS, ..._settings };
   const [colors, setColors] = useState();
 
   const chunk = useCallback(
-    (original, chunkSize = 4) => {
+    (original: any, chunkSize = 4) => {
       const data = [];
 
       for (
@@ -32,9 +32,9 @@ export default function useImageColor(src : string, _settings = {}) {
   );
 
   const mapToHex = useCallback(
-    (values) =>
+    (values: any) =>
       `#${values
-        .map((i) => {
+        .map((i: any) => {
           const h = i.toString("16");
           return h.length < 2 ? `0${h}` : h;
         })
@@ -42,7 +42,7 @@ export default function useImageColor(src : string, _settings = {}) {
     []
   );
 
-  if (!FORMATS[settings.format]) {
+  if (!FORMATS[settings.format as "rgb" | "hex"]) {
     throw new Error("Invalid output format");
   }
 
@@ -65,7 +65,7 @@ export default function useImageColor(src : string, _settings = {}) {
         0,
         img.naturalWidth,
         img.naturalHeight
-      );
+      ) as any;
       const colorMap = quantize(chunk(data, CHANNELS), settings.colors);
       const pallete = colorMap.palette();
       setColors(

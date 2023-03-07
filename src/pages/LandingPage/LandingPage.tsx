@@ -1,8 +1,6 @@
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Card1 from "../../components/Card1";
-import { useState } from "react";
-import RegisterModal from "../../components/RegisterModal";
 import { Link } from "react-router-dom";
 
 export default function LandingPage() {
