@@ -21,6 +21,27 @@ export default function LandingPage() {
     },
   ];
 
+  const socialLinks = [
+    {
+      icon: "",
+      title: "Telegram",
+      link: "https://t.me/trustpointdapp",
+      color: "#22aaee",
+    },
+    {
+      icon: "https://www.mantle.xyz/twitter-logo.svg",
+      title: "Twitter",
+      link: "https://twitter.com/TrustPointDapp",
+      color: "#2277dd",
+    },
+    {
+      icon: "https://www.mantle.xyz/telegram-logo.svg",
+      title: "Telegram",
+      link: "https://t.me/trustpointdapp",
+      color: "#ffffff",
+    },
+  ];
+
   return (
     <>
       <Navbar />
@@ -78,6 +99,58 @@ export default function LandingPage() {
               />
             );
           })}
+        </div>
+      </section>
+      <section id="socials" className="my-10 p-page">
+        <h1 className="text-front font-medium text-7xl font-raleway text-center my-14">
+          Get Involved
+        </h1>
+
+        <div className="flex justify-between">
+          <div
+            className={`w-[28%] bg-gradient-to-br from-[#22aaee77] to-[#22aaee33] flex flex-col justify-center items-center p-8 
+          rounded-3xl border-2 border-background duration-500 cursor-pointer hover:border-[#22aaee]`}
+            onClick={() => {
+              window.open("https://t.me/trustpointdapp", "_blankNew");
+            }}
+          >
+            <img
+              className="aspect-square w-14 m-4"
+              src="https://www.mantle.xyz/telegram-logo.svg"
+              alt="telegram"
+            />
+            <p className="text-white saturate-200 capitalize">Telegram</p>
+          </div>
+
+          <div
+            className={`w-[28%] bg-gradient-to-br from-[#2277dd77] to-[#2277dd33] flex flex-col justify-center items-center p-8 
+          rounded-3xl border-2 border-background duration-500 cursor-pointer hover:border-[#2277dd]`}
+            onClick={() => {
+              window.open("https://twitter.com/trustpointdapp", "_blankNew");
+            }}
+          >
+            <img
+              className="aspect-square w-14 m-4"
+              src="https://www.mantle.xyz/twitter-logo.svg"
+              alt="twitter"
+            />
+            <p className="text-white saturate-200 capitalize">Twitter</p>
+          </div>
+
+          <div
+            className={`w-[28%] bg-gradient-to-br from-[#7289da77] to-[#7289da33] flex flex-col justify-center items-center p-8 
+          rounded-3xl border-2 border-background duration-500 cursor-pointer hover:border-[#7289da]`}
+            onClick={() => {
+              window.open("https://discord.gg/AWsNcpSx3G", "_blankNew");
+            }}
+          >
+            <img
+              className="aspect-square w-14 m-4"
+              src="https://www.mantle.xyz/discord-logo.svg"
+              alt="discord"
+            />
+            <p className="text-white saturate-200 capitalize">Discord</p>
+          </div>
         </div>
       </section>
       <Footer />

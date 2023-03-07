@@ -24,6 +24,10 @@ module.exports = {
         "4xl": "2rem",
         inherit: "inherit",
       },
+      fontFamily: {
+        raleway: "'Raleway', sans-serif",
+        poppins: "'Poppins', sans-serif",
+      },
     },
   },
   plugins: [],
